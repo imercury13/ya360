@@ -11,7 +11,7 @@ setup(
     author='Igor Kuptsov',
     author_email='i.kuptsov@uh.net.ru',
     url='https://github.com/imercury13/ya360',
-    license='GNU v3',
+    license='GPL-3.0',
     entry_points={
         'console_scripts':
             ['ya360 = ya360.__main__:start'],
