@@ -6,9 +6,12 @@ setup(
     name='ya360',
     version=ya360.__version__,
     packages=find_packages(),
+    description='ya360 - Yandex 360 admin cli tool',
     long_description=open(join(dirname(__file__), 'README.rst')).read(),
     author='Igor Kuptsov',
     author_email='i.kuptsov@uh.net.ru',
+    url='https://github.com/imercury13/ya360',
+    license='GNU v3',
     entry_points={
         'console_scripts':
             ['ya360 = ya360.__main__:start'],
