@@ -1,4 +1,4 @@
 # ya360
-ya360 - Yandex 360 CLI Tool
+ya360 - Утилита командной строки для управления организациями в Yandex 360
 
-On pypi use pip install ya360
+Для установки из pypi используйте pip install ya360
