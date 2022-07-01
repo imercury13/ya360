@@ -7,7 +7,7 @@ ya360 - Утилита командной строки для управлени
 
 Войдите под администртором организации https://passport.yandex.ru/
 
-Зарегестрируйте приложение https://oauth.yandex.ru/client/new
+Зарегистрируйте приложение https://oauth.yandex.ru/client/new
 
 Заполните обязательные поля: название приложения, Платформы -> Веб-сервисы, Callback URI#1: https://oauth.yandex.ru/verification_code
 
