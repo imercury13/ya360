@@ -7,12 +7,16 @@ import csv
 try:
 	__token__ = load_token()
 except Exception as e:
-	print(e)
+	pass
+	#print(e)
+	#exit(1)
 
 try:
 	__orgID__ = load_orgID()
 except Exception as e:
-	print(e)
+	pass
+	#print(e)
+	#exit(1)
 
 def print_tid():
 	print(__token__, __orgID__)

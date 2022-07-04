@@ -9,12 +9,14 @@ import csv
 try:
 	__token__ = load_token()
 except Exception as e:
-	print(e)
+	pass
+	#print(e)
 
 try:
 	__orgID__ = load_orgID()
 except Exception as e:
-	print(e)
+	pass
+	#print(e)
 
 def search_in_groups(sstr):
 	ret = {}
