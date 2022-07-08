@@ -150,7 +150,7 @@ def update_department(args):
 	print('Подразделение ID: '+str(ud['id'])+' обновлено')
 	print('{:>10s} {:d}\n{:>10s} {:d}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:s}\n{:>10s} {:d}\n'.format('ID:', ud['id'],'pID:', ud['parentId'],'Название:',ud['name'],'Описание:', ud['description'],'E-mail:', ud['email'], 'Ру-ль:', ud['headId'], 'Кол-во:', ud['membersCount']))
 	print('{:>10s} {:100s}'.format('Алиасы:',''))
-	for alias in ds['aliases']:
+	for alias in ud['aliases']:
 		print('{:>10s} {:s}'.format('',alias))
 
 def delete_department(args):
@@ -369,7 +369,7 @@ def delete_user(args):
 
 def add_alias_user(args):
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/aliases/'+args.alias+'/'
-	ud = jreq('post', url, __token__, body)
+	ud = jreq('post', url, __token__)
 	check_request(ud)
 	print('Алиас добавлен')
 
