@@ -1,7 +1,7 @@
 from . import __version__ as version
 from .tid import save_token, save_orgID
 import argparse, sys
-from .ya import print_tid, create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user
+from .ya import print_tid, create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
 from .whois import whois
 
 def start():
@@ -11,7 +11,7 @@ def start():
     subparsers = parser.add_subparsers(help='sub-command help', dest='sub_com')
 
     parser_whois = subparsers.add_parser('whois', help='Кто это?')
-    #subparser_whois = parser_whois.add_subparsers(help='sub-command help', dest='sub_com_whois')
+
 
     parser_whois.add_argument('name', type=str, help='Строка поиска')
 
@@ -31,6 +31,9 @@ def start():
     parser_user_comm.add_argument('--language', type=str, help='Язык')
     parser_user_comm.add_argument('--position', type=str, help='Должность')
     parser_user_comm.add_argument('--timezone', type=str, help='Часовой пояс')
+
+    parser_user_comm = subparser_user.add_parser('delete', help='Удалить')
+    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
 
     parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас')
     parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
@@ -74,7 +77,6 @@ def start():
     parser_group_comm = subparser_group.add_parser('create', help='Создать')
     parser_group_comm.add_argument('--label', type=str, help='Имя группы')
     parser_group_comm.add_argument('name', type=str, help='Название группы')
-    parser_group_comm.add_argument('--members', type=str, help='Участники')
     parser_group_comm.add_argument('--adminIds', type=str, help='Руководители')
     parser_group_comm.add_argument('--description', type=str, help='Описание группы')
 
@@ -82,7 +84,6 @@ def start():
     parser_group_comm.add_argument('ID', type=int, help='ID группы')
     parser_group_comm.add_argument('--label', type=str, help='Имя группы')
     parser_group_comm.add_argument('--name', type=str, help='Название группы')
-    #parser_group_comm.add_argument('--members', type=str, help='Участники')
     parser_group_comm.add_argument('--adminIds', type=str, help='Руководители')
     parser_group_comm.add_argument('--description', type=str, help='Описание группы')
 
@@ -215,6 +216,8 @@ def start():
             show_user(args)
         if args.sub_com_user == 'create':
             create_user(args)
+        if args.sub_com_user == 'delete':
+            delete_user(args)
         if args.sub_com_user == 'update':
             update_user(args)
         if args.sub_com_user == 'add-alias':
