@@ -66,6 +66,19 @@ def add_member_group(args):
 	check_request(cd)
 	print('Добавлено')
 
+def delete_member_group(args):
+	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members/'
+	members = jreq('get', url, __token__)
+	check_request(members)
+	pprint(members)
+	#url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
+	#body = {}
+	#body.update({'id':args.userid})
+	#body.update({'type':args.type})
+	#cd = jreq('patch', url, __token__, body)
+	#check_request(cd)
+	#print(f'Участник {args.type}: {args.userid} удален из группы: {args.ID}')
+
 def show_group(args):
 	if args.members:
 		url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members/'
