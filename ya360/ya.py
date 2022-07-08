@@ -1,5 +1,4 @@
 from .tid import load_token, load_orgID
-from pprint import pprint
 from .jreq import jreq
 
 import csv
@@ -33,7 +32,6 @@ def create_group(args):
 	if args.label: body.update({'label':args.label})
 	if args.adminIds: body.update({'adminIds':args.adminIds})
 	if args.description: body.update({'description':args.description})
-	if args.members: body.update({'members':args.members})
 	cd = jreq('post', url, __token__, body)
 	check_request(cd)
 	print('Группа создана с ID: '+str(cd['id']))
@@ -45,8 +43,6 @@ def update_group(args):
 	if args.label: body.update({'label':args.label})
 	if args.adminIds: body.update({'adminIds':args.adminIds})
 	if args.description: body.update({'description':args.description})
-	#if args.members: body.update({'members':args.members})
-	#pprint(body)
 	cd = jreq('patch', url, __token__, body)
 	check_request(cd)
 	print('Обновлено')
@@ -67,20 +63,9 @@ def add_member_group(args):
 	print('Добавлено')
 
 def delete_member_group(args):
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
-	groups = jreq('get', url, __token__)
+	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members/'+args.type+'/'+args.userid
+	groups = jreq('delete', url, __token__)
 	check_request(groups)
-	try:
-		groups['members'].remove({'id':args.userid,'type':args.type})
-	except:
-		print(f'Участник {args.type}: {args.userid} в группе: {args.ID} не найден')
-		exit(1)
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
-	body = {}
-	body.update({'members':groups['members']})
-	pprint(body)
-	cd = jreq('patch', url, __token__, body)
-	check_request(cd)
 	print(f'Участник {args.type}: {args.userid} удален из группы: {args.ID}')
 
 def show_group(args):
@@ -339,7 +324,6 @@ def update_user(args):
 		if args.passwordChangeRequired == 'true':body.update({'passwordChangeRequired': True})
 		else: body.update({'passwordChangeRequired': False})
 
-	#pprint(body)
 	cd = jreq('patch', url, __token__, body)
 	check_request(cd)
 	print('Обновлено')
@@ -373,15 +357,18 @@ def create_user(args):
 		if args.isAdmin == 'true':body.update({'isAdmin': True})
 		else: body.update({'isAdmin': False})
 
-
-	#pprint(body)
 	cd = jreq('post', url, __token__, body)
 	check_request(cd)
 	print('Пользователь создан с ID: '+str(cd['id']))
 
+def delete_user(args):
+	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)
+	ud = jreq('delete', url, __token__)
+	check_request(ud)
+	print('Пользователь удален')
+
 def add_alias_user(args):
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/aliases/'
-	body = {'alias':args.alias}
+	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/aliases/'+args.alias+'/'
 	ud = jreq('post', url, __token__, body)
 	check_request(ud)
 	print('Алиас добавлен')
