@@ -1,7 +1,7 @@
 from . import __version__ as version
 from .tid import save_token, save_orgID
 import argparse, sys
-from .ya import print_tid, create_group, delete_group, update_group, add_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user
+from .ya import print_tid, create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user
 from .whois import whois
 
 def start():
@@ -91,6 +91,11 @@ def start():
     parser_group_comm.add_argument('userid', type=str, help='ID участника')
     parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
 
+    parser_group_comm = subparser_group.add_parser('delete-member', help='Удалить участника')
+    parser_group_comm.add_argument('ID', type=int, help='ID группы')
+    parser_group_comm.add_argument('userid', type=str, help='ID участника')
+    parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
+
     parser_group_comm = subparser_group.add_parser('delete', help='Удалить')
     parser_group_comm.add_argument('ID', type=int, help='ID группы')
 
@@ -174,6 +179,8 @@ def start():
             delete_group(args)
         if args.sub_com_group == 'add-member':
             add_member_group(args)
+        if args.sub_com_group == 'delete-member':
+            delete_member_group(args)
         if args.sub_com_group == 'update':
             update_group(args)
 
