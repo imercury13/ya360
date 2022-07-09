@@ -31,7 +31,7 @@ ya360 org_id
 <ul>
   {% for post in site.posts %}
     <li>
-      <a href="{{ post.url }}">{{ post.title }}</a> {{ post.url }}
+      <a href="/ya360/{{ post.url }}">{{ post.title }}</a> /ya360/{{ post.url }}
     </li>
   {% endfor %}
 </ul>
