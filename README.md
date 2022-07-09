@@ -6,6 +6,15 @@
 pip install ya360
 ```
 
+### Что нового?
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="/ya360{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
 ### Регистрация приложения:
 
 - Войдите под администратором организации https://passport.yandex.ru/
@@ -27,12 +36,3 @@ ya360 token
 ```
 ya360 org_id
 ```
-
-### Что нового?
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="/ya360{{ post.url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
