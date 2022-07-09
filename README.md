@@ -10,7 +10,7 @@ pip install ya360
 <ul>
   {% for post in site.posts %}
     <li>
-      <a href="/ya360{{ post.url }}">{{ post.title }}</a>
+      <a href="{{ post.url }}">{{ post.title }}</a>
     </li>
   {% endfor %}
 </ul>
