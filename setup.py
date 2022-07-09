@@ -13,7 +13,7 @@ setup(
     maintainer='Igor Kuptsov',
     maintainer_email='i.kuptsov@uh.net.ru',
     download_url='https://github.com/imercury13/ya360',
-    url='https://imercury13.github.io/ya360',
+    url='https://ya360.uh.net.ru',
     license='GPL-3.0',
     entry_points={
         'console_scripts':
