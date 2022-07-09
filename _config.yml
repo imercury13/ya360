@@ -2,3 +2,4 @@ theme: jekyll-theme-slate
 show_downloads: true
 github:
   zip_url: http://example.com/download.zip
+  tarball_url: https://github.com/imercury13/ya360/tarball/main
