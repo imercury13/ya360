@@ -27,11 +27,11 @@ ya360 token
 ```
 ya360 org_id
 ```
-
+### Что нового?
 <ul>
   {% for post in site.posts %}
     <li>
-      <a href="/ya360/{{ post.url }}">{{ post.title }}</a> /ya360/{{ post.url }}
+      <a href="/ya360{{ post.url }}">{{ post.title }} ({{ post.date }})</a>
     </li>
   {% endfor %}
 </ul>
