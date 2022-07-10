@@ -21,7 +21,7 @@ usage: ya360 [-h] [-v]
 positional arguments:
   {whois,user,users,group,groups,department,departments,token,org_id}
                         sub-command help
-    [whois](/docs/whois/)               Кто это?
+    whois               Кто это?
     user                Пользователь
     users               Пользователи
     group               Группа
@@ -35,3 +35,5 @@ optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
 ```
+### Следующуе страницы:
+[whois](/docs/whois/)
