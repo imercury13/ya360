@@ -14,4 +14,4 @@ ya360 -h
 
 Если вы вдруг обнаружили ошибку, то желательно "сдать" ее нам через [форму на github'е](https://github.com/imercury13/ya360/issues/new?assignees=&labels=&template=bug_report.md&title=), а просто оставить свои пожелания и "хотелки" можно [здесь](https://github.com/imercury13/ya360/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
->Автоматизируйте и админте. Админте и автоматизируйте
+>Автоматизируйте и админте. Админте и автоматизируйте. Да прибудет с вами CLI!
