@@ -3,7 +3,11 @@ permalink: /news/
 ---
 # Что нового?
 
-{{ site.posts | where: "categories", "categories == 'news'" }}
+{% assign filtered_posts = site.posts | where: "categories", "categories == 'news'" %}
+
+{% for post in filtered_posts %}
+  {{ post.title }}
+{% endfor %}
 
 {% for category in site.categories %}
   {% if category[0] == "news" %}
