@@ -35,5 +35,5 @@ optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
 ```
-### Следующуе страницы:
-[whois](/docs/whois/)
+### Позиционные аргументы:
+[whois](/docs/whois/), [user](), [users](), [group](), [groups](), [department](), [departments](), [token](), [org_id]()
