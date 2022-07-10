@@ -1,22 +1,14 @@
 ---
 permalink: /news/
 ---
-### Что нового?
+# Что нового?
 
 {% for category in site.categories %}
-  {% if category[0] == "news" %}</h3>
+  {% if category[0] == "news" %}
   <ul>
     {% for post in category[1] %}
-      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+      <li><a href="{{ post.url }}">{{ post.title }} {{ post.date | date: "%-d %B %Y" }}</a></li>
     {% endfor %}
   </ul>
   {% endif %}
 {% endfor %}
-
-<ul>
-  {% for post in site.posts if site.categories == "news" %}
-    <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
