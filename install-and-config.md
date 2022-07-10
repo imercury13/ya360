@@ -12,7 +12,7 @@ pip install ya360
 
 ### Настройка
 
-- Войдите под администратором организации [passport.yandex.ru/](https://passport.yandex.ru/){:target="_blank"}
+- Войдите под администратором организации [passport.yandex.ru](https://passport.yandex.ru/){:target="_blank"}
 
 - Зарегистрируйте приложение [oauth.yandex.ru/client/new](https://oauth.yandex.ru/client/new){:target="_blank"}
 
