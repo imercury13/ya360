@@ -5,18 +5,18 @@ permalink: /install-and-config/
 
 ### Установка
 
-Для установки стабильного релиза рекомендуется пакет из [pypi](https://pypi.org/project/ya360/), используя команду:
+Для установки стабильного релиза рекомендуется пакет из [pypi](https://pypi.org/project/ya360/){:target="_blank"}, используя команду:
 ```
 pip install ya360
 ```
 
 ### Настройка
 
-- Войдите под администратором организации https://passport.yandex.ru/
+- Войдите под администратором организации [passport.yandex.ru/](https://passport.yandex.ru/){:target="_blank"}
 
-- Зарегистрируйте приложение https://oauth.yandex.ru/client/new
+- Зарегистрируйте приложение [oauth.yandex.ru/client/new](https://oauth.yandex.ru/client/new){:target="_blank"}
 
-- Заполните обязательные поля: название приложения, Платформы -> Веб-сервисы, Callback URI#1: https://oauth.yandex.ru/verification_code
+- Заполните обязательные поля: название приложения, Платформы -> Веб-сервисы, Callback URI: https://oauth.yandex.ru/verification_code
 
 - В доступах отметье все поля для **Яндекс 360 Admin API** и **Яндекс 360 Directory API**
 
@@ -27,7 +27,7 @@ pip install ya360
 ya360 token VaskTokenVydaniyYandeKsom
 ```
 
-- ID организации можно увидеть на странице администрирования https://admin.yandex.ru/company-profile и записать его через команду
+- ID организации можно увидеть на странице администрирования [admin.yandex.ru/company-profile](https://admin.yandex.ru/company-profile){:target="_blank"} и записать его через команду
 ```
 ya360 org_id 00000
 ```
