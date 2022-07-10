@@ -1,6 +1,5 @@
 theme: jekyll-theme-hacker
 show_downloads: true
-page_excerpts: true
 github:
   zip_url: https://github.com/imercury13/ya360/zipball/main
   tar_url: https://github.com/imercury13/ya360/tarball/main
