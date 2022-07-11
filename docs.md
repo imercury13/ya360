@@ -5,8 +5,8 @@ permalink: /docs/
 
 Данная документация составлена по состоянию версии релиза:
 
-```text
-# ya360 -v
+```bash
+ya360 -v
 ya360 2.2.1
 ```
 
@@ -14,8 +14,8 @@ ya360 2.2.1
 
 Вывод общей подсказки или по конкретной команде производится с помощью указания ключа **-h**
 
-```text
-# ya360 -h
+```bash
+ya360 -h
 usage: ya360 [-h] [-v]
              {whois,user,users,group,groups,department,departments,token,org_id}
              ...
@@ -38,6 +38,6 @@ optional arguments:
   -v, --version         show program's version number and exit
 ```
 
-### Позиционные аргументы
+## Позиционные аргументы
 
 [whois](/docs/whois/), [user](), [users](), [group](), [groups](), [department](), [departments](), [token](), [org_id]()
