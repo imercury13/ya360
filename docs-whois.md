@@ -8,8 +8,9 @@ permalink: /docs/whois/
 ## Вывод подсказки
 
 Вывод подсказки с помощью указания ключа **-h**
-```
-# ya360 whois -h
+
+```bash
+ya360 whois -h
 usage: ya360 whois [-h] name
 
 positional arguments:
@@ -21,22 +22,24 @@ optional arguments:
 
 ## Примеры
 
-Поиск по login:
-```
-# ya360 whois 1**3k**
+### Поиск по login
+
+```bash
+ya360 whois 1**3k**
 Найден пользователь:
 ID                dID Nickname                  Ф.И.О.                                  
  ***00000*******9   2 1**3k**                   ***** ******** ******
 ```
 
-Поиск по alias:
-```
-# ya360 whois sales
+### Поиск по alias
+
+```bash
+ya360 whois sales
 Найдена группа:
 Id  Тип                  Имя             E-mail                         Название                                           Описание                                          
 184 generic              sales           sales@*********.**             Сотрудники отдела продаж                           *****
 
-# ya360 whois it
+ya360 whois it
 Найдено подразделение:
 Id  pId Имя             E-mail                         Название                                           Описание                                          
   2  43 it              it@*********.**                Департамент информационных технологий              Информационные технологии
