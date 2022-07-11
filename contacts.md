@@ -4,7 +4,7 @@ permalink: /contacts/
 
 # Контакты
 
-- E-mail: [info@uh.net.ru](info@uh.net.ru)
+- E-mail: [ya360@uh.net.ru](mailto:ya360@uh.net.ru)
 
 - Пожелания: [Форма на github'е](https://github.com/imercury13/ya360/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
