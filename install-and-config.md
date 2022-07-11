@@ -3,7 +3,7 @@ permalink: /install-and-config/
 ---
 # Установка и настройка
 
-### Установка
+## Установка
 
 Для установки стабильного релиза рекомендуется пакет из [pypi](https://pypi.org/project/ya360/){:target="_blank"}, используя команду:
 
@@ -11,7 +11,7 @@ permalink: /install-and-config/
 pip install ya360
 ```
 
-### Настройка
+## Настройка
 
 - Войдите под администратором организации [passport.yandex.ru](https://passport.yandex.ru/){:target="_blank"}
 
