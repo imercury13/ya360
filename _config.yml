@@ -6,6 +6,6 @@ github:
 plugins:
   - jekyll-feed
 feed:
-  path: /news/feed.xml
+  path: "/news/feed.xml"
   categories:
     - news
