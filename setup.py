@@ -8,7 +8,7 @@ setup(
     packages=find_packages(),
     description='ya360 - Yandex 360 admin cli tool',
     long_description=open(join(dirname(__file__), 'README.md')).read(),
-    author='Igor Kuptsov',
+    author=ya360.__author__,
     author_email='i.kuptsov@uh.net.ru',
     maintainer='Igor Kuptsov',
     maintainer_email='i.kuptsov@uh.net.ru',
