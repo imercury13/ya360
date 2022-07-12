@@ -3,3 +3,9 @@ show_downloads: true
 github:
   zip_url: https://github.com/imercury13/ya360/zipball/main
   tar_url: https://github.com/imercury13/ya360/tarball/main
+plugins:
+  - jekyll-feed
+feed:
+  path: /news/feed.xml
+  categories:
+    - news
