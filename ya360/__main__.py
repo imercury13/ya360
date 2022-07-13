@@ -1,12 +1,17 @@
-from . import __version__ as version
+"""
+Модуль функций автозапуска при старте пакета
+"""
+from . import __version__
 from .tid import save_token, save_orgID
 import argparse, sys
 from .ya import print_tid, create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
 from .whois import whois
 
 def start():
+    """Функция запуска приложения приема аргументов командной строки
+    """
     parser = argparse.ArgumentParser(prog='ya360')
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s '+version)
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s '+__version__)
 
     subparsers = parser.add_subparsers(help='sub-command help', dest='sub_com')
 
