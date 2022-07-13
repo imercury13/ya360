@@ -1,3 +1,6 @@
+"""
+Модуль работы с токеном и ID организации
+"""
 import pickle
 
 from ya360 import __path__
