@@ -1,24 +1,11 @@
 from .tid import load_token, load_orgID
-from pprint import pprint
 from .jreq import jreq
 from .ya import check_request
 
 
-import csv
-
-try:
-	__token__ = load_token()
-except Exception as e:
-	pass
-	#print(e)
-
-try:
-	__orgID__ = load_orgID()
-except Exception as e:
-	pass
-	#print(e)
-
 def search_in_groups(sstr):
+	__token__ = load_token()
+	__orgID__ = load_orgID()
 	ret = {}
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/?perPage=10000'
 	groups = jreq('get', url, __token__)
@@ -33,6 +20,8 @@ def search_in_groups(sstr):
 	return ret
 
 def search_in_departments(sstr):
+	__token__ = load_token()
+	__orgID__ = load_orgID()
 	ret = {}
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/?perPage=1000'
 	departments = jreq('get', url, __token__)
@@ -48,6 +37,8 @@ def search_in_departments(sstr):
 	return ret
 
 def search_in_users(sstr):
+	__token__ = load_token()
+	__orgID__ = load_orgID()
 	ret = {}
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/?perPage=1000'
 	users = jreq('get', url, __token__)
