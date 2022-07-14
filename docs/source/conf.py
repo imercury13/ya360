@@ -14,6 +14,11 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
+if on_rtd:
+    html_theme = 'default'
+else:
+    html_theme = 'nature'
 
 
 # -- Project information -----------------------------------------------------
@@ -57,11 +62,11 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-import sphinx_redactor_theme
+#import sphinx_redactor_theme
 
-html_theme = 'sphinx_redactor_theme'
+#html_theme = 'sphinx_redactor_theme'
 
-html_theme_path = [sphinx_redactor_theme.get_html_theme_path()]
+#html_theme_path = [sphinx_redactor_theme.get_html_theme_path()]
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
