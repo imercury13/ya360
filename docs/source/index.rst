@@ -3,18 +3,41 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ya360's documentation!
-=================================
+Документация ya360
+==================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption:  Содержание:
 
+**ya360** - Утилита командной строки для Yandex 360
 
+   | *Для фанатов автоматизации UNIX/Linux - style или тех, кто устал курлить*
 
-Indices and tables
-==================
+Автоматизируйте процессы администрирования Yandex 360 как вам удобно и откуда угодно, везде, где есть доступ к командной строке
+
+   | *Автоматизируйте и админте. Админте и автоматизируйте. Да прибудет с вами CLI!*
+
+Приступая к работе
+------------------
+
+.. toctree::
+
+   usage
+   
+Команды ya360
+-------------
+
+.. toctree::
+
+   cmd
+
+Для разработчиков
+-----------------
+
+.. toctree::
+
+    modules
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
