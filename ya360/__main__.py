@@ -7,7 +7,7 @@ import argparse
 from .ya import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
 from .whois import whois
 
-def start():
+def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
     """
     parser = argparse.ArgumentParser(prog='ya360')
@@ -167,6 +167,10 @@ def start():
     parser_org_ID = subparsers.add_parser('org_id', help='Добавить или изменить ID организации')
     parser_org_ID.add_argument('orgID', type=str, help='ID организации')
 
+    return parser
+
+def start():
+    parser = gen_parser()
     args = parser.parse_args()
 
 
