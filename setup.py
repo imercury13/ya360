@@ -19,6 +19,15 @@ setup(
         'console_scripts':
             ['ya360 = ya360.__main__:start'],
     },
+    classifiers=[
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'Programming Language :: Python',
+        'Environment :: Console',
+        'Intended Audience :: System Administrators'
+
+    ],
     install_requires=[
 		'requests',
     ],
