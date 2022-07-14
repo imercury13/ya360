@@ -3,17 +3,23 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ya360's documentation!
-=================================
+Документация ya360
+==================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption:  Содержание:
+
+Содержание
+----------
+
+.. toctree::
+
+   usage
 
 
-
-Indices and tables
-==================
+Предметный указатель
+====================
 
 * :ref:`genindex`
 * :ref:`modindex`
