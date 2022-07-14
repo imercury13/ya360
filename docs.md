@@ -1,5 +1,5 @@
 ---
-permalink: /docs1/
+permalink: /docs/
 ---
 # Документация
 
