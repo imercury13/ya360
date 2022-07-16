@@ -16,7 +16,7 @@ def jreq(mode, url, token, body=None, try_number=1):
 	:param body: тело запроса (если предусмотрено)
 	:type body: dict
 	:param try_number: номер попытки передачи запроса
-	:type try_namber: int
+	:type try_number: int
 	:returns: json результат запроса
 	"""
 	try:
