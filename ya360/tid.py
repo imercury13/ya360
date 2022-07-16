@@ -8,7 +8,10 @@ from . import __version__
 
 
 def load_token():
-	"""Функция загрузки токена"""
+	"""Функция загрузки токена
+	
+	:returns: токен
+	"""
 	with open(path[0]+'/token.pickle','rb') as f:
 		token = pickle.load(f)
 	
@@ -16,7 +19,10 @@ def load_token():
 
 	
 def load_orgID():
-	"""Функция загрузки id организации"""
+	"""Функция загрузки id организации
+	
+	:returns: ID организации
+	"""
 	with open(path[0]+'/orgid.pickle','rb') as f:
 		orgID = pickle.load(f)
 	
@@ -26,10 +32,7 @@ def load_orgID():
 def save_token(token):
 	"""Функция записи токена
 	
-	Parameters
-	----------
-	token
-		токен
+	  :token: токен
 	"""
 	with open(path[0]+'/token.pickle','wb') as f:
 		pickle.dump(token, f)
@@ -38,10 +41,7 @@ def save_token(token):
 def save_orgID(orgID):
 	"""Функция записи id организации
 	
-	Parameters
-	----------
-	orgID
-		ID организации
+	:orgID: ID организации
 	"""
 	with open(path[0]+'/orgid.pickle','wb') as f:
 		pickle.dump(orgID, f)

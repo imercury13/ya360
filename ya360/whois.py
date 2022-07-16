@@ -1,9 +1,15 @@
+"""Модуль функций для whois"""
 from .tid import load_token, load_orgID
 from .jreq import jreq
 from .ya import check_request
 
 
 def search_in_groups(sstr):
+	"""Функция поиска групп
+	
+	:sstr: строка поиска
+	:returns: результат поиска
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ret = {}
@@ -20,6 +26,11 @@ def search_in_groups(sstr):
 	return ret
 
 def search_in_departments(sstr):
+	"""Функция поиска поздразделений
+	
+	:sstr: строка поиска
+	:returns: результат поиска
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ret = {}
@@ -37,6 +48,11 @@ def search_in_departments(sstr):
 	return ret
 
 def search_in_users(sstr):
+	"""Функция поиска пользователей
+	
+	:sstr: строка поиска
+	:returns: результат поиска
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ret = {}
@@ -54,6 +70,11 @@ def search_in_users(sstr):
 	return ret
 
 def whois(args):
+	"""Функция поиска
+	
+	:args: набор аргументов из argparse
+	:returns: вывод результата поиска
+	"""
 	ret = {'user':{},'department':{},'group':{}}
 	ret['group'] = search_in_groups(args.name)
 	ret['department'] = search_in_departments(args.name)
