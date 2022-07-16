@@ -7,7 +7,8 @@ from .ya import check_request
 def search_in_groups(sstr):
 	"""Функция поиска групп
 	
-	:sstr: строка поиска
+	:param sstr: строка поиска
+	:type sstr: str
 	:returns: результат поиска
 	"""
 	__token__ = load_token()
@@ -28,7 +29,8 @@ def search_in_groups(sstr):
 def search_in_departments(sstr):
 	"""Функция поиска поздразделений
 	
-	:sstr: строка поиска
+	:param sstr: строка поиска
+	:type sstr: str
 	:returns: результат поиска
 	"""
 	__token__ = load_token()
@@ -50,7 +52,8 @@ def search_in_departments(sstr):
 def search_in_users(sstr):
 	"""Функция поиска пользователей
 	
-	:sstr: строка поиска
+	:param sstr: строка поиска
+	:type sstr: str
 	:returns: результат поиска
 	"""
 	__token__ = load_token()
@@ -72,7 +75,8 @@ def search_in_users(sstr):
 def whois(args):
 	"""Функция поиска
 	
-	:args: набор аргументов из argparse
+	:param args: набор аргументов из argparse
+	:type args: dict
 	:returns: вывод результата поиска
 	"""
 	ret = {'user':{},'department':{},'group':{}}

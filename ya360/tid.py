@@ -32,7 +32,8 @@ def load_orgID():
 def save_token(token):
 	"""Функция записи токена
 	
-	  :token: токен
+	  :param token: токен
+	  :type token: str
 	"""
 	with open(path[0]+'/token.pickle','wb') as f:
 		pickle.dump(token, f)
@@ -41,7 +42,8 @@ def save_token(token):
 def save_orgID(orgID):
 	"""Функция записи id организации
 	
-	:orgID: ID организации
+	:param orgID: ID организации
+	:type orgID: str
 	"""
 	with open(path[0]+'/orgid.pickle','wb') as f:
 		pickle.dump(orgID, f)

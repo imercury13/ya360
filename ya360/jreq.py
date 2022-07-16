@@ -7,13 +7,17 @@ from . import __version__
 def jreq(mode, url, token, body=None, try_number=1):
 	"""Функция передачи запроса в API Yandex 360
 
-	:mode: метод запроса (get,post,patch,delete)
-	:url: адрес запроса
-	:token: токен авторизации запроса
-	:body: тело запроса (если предусмотрено)
-	:try_number: номер попытки передачи запроса
-
-	:returns: результат запроса
+	:param mode: метод запроса (get,post,patch,delete)
+	:type mode: str
+	:param url: адрес запроса
+	:type url: str
+	:param token: токен авторизации запроса
+	:type token: str
+	:param body: тело запроса (если предусмотрено)
+	:type body: dict
+	:param try_number: номер попытки передачи запроса
+	:type try_namber: int
+	:returns: json результат запроса
 	"""
 	try:
 		if mode == 'post': response = requests.post(url, data=json.dumps(body), headers={'Authorization': 'OAuth '+token, 'Content-type': 'application/json'}).json()
