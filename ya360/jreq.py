@@ -13,7 +13,7 @@ def jreq(mode, url, token, body=None, try_number=1):
 	:body: тело запроса (если предусмотрено)
 	:try_number: номер попытки передачи запроса
 
-	:returned: результат запроса
+	:returns: результат запроса
 	"""
 	try:
 		if mode == 'post': response = requests.post(url, data=json.dumps(body), headers={'Authorization': 'OAuth '+token, 'Content-type': 'application/json'}).json()
