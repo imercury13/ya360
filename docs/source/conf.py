@@ -18,7 +18,7 @@ on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if on_rtd:
     html_theme = 'default'
 else:
-    html_theme = 'nature'
+    html_theme = 'sphinx_rtd_theme'
 
 master_doc = 'index'
 
@@ -40,7 +40,7 @@ author = 'Igor Kuptsov'
 extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',
-    'sphinxarg.ext'
+    'sphinx_argparse_cli'
     ]
 
 # Add any paths that contain templates here, relative to this directory.
