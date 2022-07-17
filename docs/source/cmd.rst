@@ -2,12 +2,7 @@ CLI
 ---
 
 .. toctree::
-   :maxdepth: 1
-
-#.. sphinx_argparse_cli::
-#  :module: ya360.__main__
-#  :func: gen_parser
-#  :prog: ya360
+   :maxdepth: 2
 
    cmd_main
    cmd_ya360_whois
