@@ -12,6 +12,23 @@
 Конфигурирование
 ----------------
 
+.. warning::
+    Данный метод конфигурирования является временнным и в последующих релизах может быть изменен.
+
+    Для обслуживания нескольких организаций, рекомендуется использовать механизм venv:
+
+    .. code-block:: console
+
+        $ python3 -m venv org1
+        $ source org1/bin/activate
+        $ (org1) pip install ya360
+        $ (org1) decativate
+        $ python3 -m venv org2
+        $ source org2/bin/activate
+        $ (org2) pip install ya360
+        $ (org2) decativate
+
+
 После успешной установки, утилиту необходимо настроить на работу с вашей организацией.
 
 - Войдите под администратором организации https://passport.yandex.ru

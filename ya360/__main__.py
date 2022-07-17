@@ -13,18 +13,18 @@ def gen_parser():
     parser = argparse.ArgumentParser(prog='ya360')
     parser.add_argument('-v', '--version', action='version', version='%(prog)s '+__version__)
 
-    subparsers = parser.add_subparsers(help='sub-command help', dest='sub_com')
+    subparsers = parser.add_subparsers(dest='sub_com')
 
     parser_whois = subparsers.add_parser('whois', help='Кто это?')
 
 
-    parser_whois.add_argument('name', type=str, help='Строка поиска')
+    parser_whois.add_argument('name', type=str, help='nickname, alias или label разыскиваемой сущности')
 
 
-    parser_user = subparsers.add_parser('user', help='Пользователь')
-    subparser_user = parser_user.add_subparsers(help='sub-command help', dest='sub_com_user')
+    parser_user = subparsers.add_parser('user', help='Операции над пользователем')
+    subparser_user = parser_user.add_subparsers(help='Выполнение действия над пользователем', dest='sub_com_user')
 
-    parser_user_comm = subparser_user.add_parser('create', help='Создать')
+    parser_user_comm = subparser_user.add_parser('create', help='Создать пользователя')
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('departmentId', type=int, help='ID подразделения')
     parser_user_comm.add_argument('name', nargs='*', help='Фамилия Имя Отчество')
@@ -37,21 +37,22 @@ def gen_parser():
     parser_user_comm.add_argument('--position', type=str, help='Должность')
     parser_user_comm.add_argument('--timezone', type=str, help='Часовой пояс')
 
-    parser_user_comm = subparser_user.add_parser('delete', help='Удалить')
+    parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя '
+                                                                '(ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ!)')
     parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
 
-    parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас')
-    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
-    parser_user_comm.add_argument('alias', type=str, help='alias')
-
-    parser_user_comm = subparser_user.add_parser('delete-alias', help='Удалить алиас')
+    parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас пользователю')
     parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
     parser_user_comm.add_argument('alias', type=str, help='alias')
 
-    parser_user_comm = subparser_user.add_parser('show', help='Показать')
+    parser_user_comm = subparser_user.add_parser('delete-alias', help='Удалить алиас у пользователя')
+    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
+    parser_user_comm.add_argument('alias', type=str, help='alias')
+
+    parser_user_comm = subparser_user.add_parser('show', help='Вывести информацию о пользователе')
     parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
 
-    parser_user_comm = subparser_user.add_parser('update', help='Изменить')
+    parser_user_comm = subparser_user.add_parser('update', help='Изменить данные пользователя')
     parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
     parser_user_comm.add_argument('--name', nargs='*', help='Фамилия Имя Отчество')
     parser_user_comm.add_argument('--about', type=str, help='Описание пользователя')
@@ -70,10 +71,10 @@ def gen_parser():
     parser_users = subparsers.add_parser('users', help='Пользователи')
     subparser_users = parser_users.add_subparsers(help='sub-command help', dest='sub_com_users')
 
-    parser_users_comm = subparser_users.add_parser('show', help='Показать')
+    parser_users_comm = subparser_users.add_parser('show', help='Вывести список всех пользователей')
     parser_users_comm.add_argument('--page', type=int, help='Номер страницы')
     parser_users_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
-    parser_users_comm.add_argument('--csv', type=str, help='Save to CSV file')
+    parser_users_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
 
     parser_group = subparsers.add_parser('group', help='Группа')
