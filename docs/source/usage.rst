@@ -22,11 +22,11 @@
         $ python3 -m venv org1
         $ source org1/bin/activate
         $ (org1) pip install ya360
-        $ (org1) decativate
+        $ (org1) deactivate
         $ python3 -m venv org2
         $ source org2/bin/activate
         $ (org2) pip install ya360
-        $ (org2) decativate
+        $ (org2) deactivate
 
 
 После успешной установки, утилиту необходимо настроить на работу с вашей организацией.
