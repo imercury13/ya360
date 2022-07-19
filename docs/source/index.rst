@@ -2,7 +2,7 @@
    sphinx-quickstart on Wed Jul 13 18:26:45 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
-<meta name="yandex-verification" content="40d1aa4568ada4d1" />
+<meta name="yandex-verification" content="298d3ebcf3412964" />
 Документация ya360
 ==================
 
