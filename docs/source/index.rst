@@ -3,6 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. meta::
+   :yandex-verification: 298d3ebcf3412964
+
 Документация ya360
 ==================
 
