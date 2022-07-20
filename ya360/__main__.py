@@ -6,6 +6,7 @@ from .tid import save_token, save_orgID, get_token
 import argparse
 from .ya import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
 from .whois import whois
+from .configure import load_config, make_config
 
 def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
@@ -176,6 +177,10 @@ def gen_parser():
     return parser
 
 def start():
+    config = load_config()
+    if config is False:
+        make_config()
+        exit(0)
     parser = gen_parser()
     args = parser.parse_args()
 
