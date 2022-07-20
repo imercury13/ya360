@@ -32,3 +32,15 @@ def jreq(mode, url, token, body=None, try_number=1):
 
 	else:
 		return response
+
+def send_code(url, body):
+	"""Функция запроса кода авторизации
+	
+	:param url: адрес запроса
+	:type url: str
+	:param body: тело запроса
+	:type body: str
+	:returns: url
+	"""
+
+	return requests.post(url, data=body, headers={'Host': 'oauth.yandex.ru', 'Content-type': 'application/x-www-form-urlencoded'}).json()
