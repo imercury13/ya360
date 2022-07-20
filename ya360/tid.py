@@ -4,8 +4,22 @@
 from . import __path__ as path
 import pickle
 from . import __version__
+from .jreq import send_code
+from pprint import pprint
 
-
+def get_token(args):
+	"""Функция получения токена по коду авторизации
+	
+	:returns: токен
+	"""
+	url = 'https://oauth.yandex.ru/authorize?response_type=code&client_id='+str(args.appid)+'&login_hint='+str(args.adminemail)+'&force_confirm=yes'
+	print(url)
+	#print(get_code(url).text)
+	code = input("Введите код полученный на сайте: ")
+	url = 'https://oauth.yandex.ru/token'
+	body = 'grant_type=authorization_code&code='+str(code)+'&client_id='+str(args.appid)+'&client_secret='+str(args.appsec)
+	print(url)
+	print(send_code(url, body).text)
 
 def load_token():
 	"""Функция загрузки токена
