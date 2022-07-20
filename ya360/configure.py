@@ -7,6 +7,7 @@ from .jreq import send_code
 
 def load_config():
     """Функция загрузки конфигурационного файла
+    
     :returns: config или False, если нет кофигурационного файла
     """
     try:
@@ -34,6 +35,7 @@ def save_config(config):
 
 def get_token(code, client_id, client_secret):
     """Функция получения токена по коду авторизации
+
     :param code: код подтверждения
     :type code: str
     :param client_id: id приложения
