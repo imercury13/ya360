@@ -1,8 +1,0 @@
-ya360 token
------------
-
-.. argparse::
-   :module: ya360.__main__
-   :func: gen_parser
-   :prog: ya360
-   :path: token

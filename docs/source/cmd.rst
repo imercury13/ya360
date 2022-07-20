@@ -12,5 +12,4 @@ CLI
    cmd_ya360_department
    cmd_ya360_groups
    cmd_ya360_group
-   cmd_ya360_token
-   cmd_ya360_orgid
+   cmd_ya360_make-config
