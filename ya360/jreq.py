@@ -43,4 +43,4 @@ def send_code(url, body):
 	:returns: url
 	"""
 
-	return requests.post(url, data=body, headers={'Host': 'oauth.yandex.ru', 'Content-type': 'application/x-www-form-urlencoded'})
+	return requests.post(url, data=body, headers={'Host': 'oauth.yandex.ru', 'Content-type': 'application/x-www-form-urlencoded'}).json()

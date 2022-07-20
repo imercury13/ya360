@@ -2,7 +2,7 @@
 Модуль функций автозапуска при старте пакета
 """
 from . import __version__
-from .tid import save_token, save_orgID, get_token
+from .tid import save_token, save_orgID
 import argparse
 from .ya import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
 from .whois import whois
@@ -16,14 +16,8 @@ def gen_parser():
 
     subparsers = parser.add_subparsers(dest='sub_com')
 
-    parser_init = subparsers.add_parser('init', help='Инициализация приложения')
-    parser_init.add_argument('appid', type=str, help='ID приложения')
-    parser_init.add_argument('appsec', type=str, help='Пароль приложения')
-    parser_init.add_argument('adminemail', type=str, help='Логин под которым проводилась регистрация приложения')
 
     parser_whois = subparsers.add_parser('whois', help='Кто это?')
-
-
     parser_whois.add_argument('name', type=str, help='nickname, alias или label разыскиваемой сущности')
 
 
@@ -169,10 +163,13 @@ def gen_parser():
     parser_departments_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
 
-    parser_token = subparsers.add_parser('token', help='Добавить или изменить токен')
-    parser_token.add_argument('KEY', type=str, help='токен')
-    parser_org_ID = subparsers.add_parser('org_id', help='Добавить или изменить ID организации')
-    parser_org_ID.add_argument('orgID', type=str, help='ID организации')
+    #parser_token = subparsers.add_parser('token', help='Добавить или изменить токен')
+    #parser_token.add_argument('KEY', type=str, help='токен')
+    #parser_org_ID = subparsers.add_parser('org_id', help='Добавить или изменить ID организации')
+    #parser_org_ID.add_argument('orgID', type=str, help='ID организации')
+
+    parser_config = subparsers.add_parser('make-config', help='Создание конфигурационного файла')
+    
 
     return parser
 
@@ -191,8 +188,8 @@ def start():
     if args.sub_com == 'whois':
         whois(args)
 
-    if args.sub_com == 'init':
-        get_token(args)
+    if args.sub_com == 'make-config':
+        make_config()
 
     if args.sub_com == 'group':
         if args.sub_com_group == 'show':

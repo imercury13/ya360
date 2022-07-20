@@ -3,6 +3,7 @@
 from . import __path__ as path
 import pickle
 from . import __version__
+from .jreq import send_code
 
 def load_config():
     """Функция загрузки конфигурационного файла
@@ -24,12 +25,28 @@ def save_config(config):
     :retunrs: True или False
     """
     try:
-        with open(path[0]+'/configuration.pickle','w') as f:
+        with open(path[0]+'/configuration.pickle','wb') as f:
             pickle.dump(config, f)
     except:
         return False
-    else:
-        return True
+    
+    return True
+
+def get_token(code, client_id, client_secret):
+    """Функция получения токена по коду авторизации
+    :param code: код подтверждения
+    :type code: str
+    :param client_id: id приложения
+    :type client_id: str
+    :param client_secret: пароль приложения
+    :type client_secret: str
+    :returns: json токены
+	"""
+
+    url = 'https://oauth.yandex.ru/token'
+    body = 'grant_type=authorization_code&code='+str(code)+'&client_id='+str(client_id)+'&client_secret='+str(client_secret)
+	
+    return send_code(url, body)
 
 def make_config():
     """Функция создания первичного конфигурационного файла"""
@@ -55,5 +72,17 @@ def make_config():
     print('\n4. Перейдите по следующей ссылке и получите код подтверждения\n')
     print('      '+url)
     print('\n')
-
-    
+    code = input('   Введите код подтверждения: ')
+    token = get_token(code, client_id, client_secret)
+    if 'error' in token and 'error_description' in token:
+        print('\nОШИБКА '+token['error']+': '+token['error_description']+'\n')
+        exit(1)
+    print('5. Зайдите в профиль организации\n')
+    print('      https://admin.yandex.ru/company-profile\n')
+    orgid = input('    Введите ID организации: ')
+    token.update({'orgid':orgid})
+    if save_config(token):
+        return True
+    else:
+        print('\nОшибка создания конфигурационного файла\n')
+        exit(1)
