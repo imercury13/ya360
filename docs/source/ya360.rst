@@ -4,6 +4,14 @@ ya360 package
 Submodules
 ----------
 
+ya360.configure module
+-----------------
+
+.. automodule:: ya360.configure
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 ya360.jreq module
 -----------------
 
