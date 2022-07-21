@@ -34,6 +34,7 @@ setup(
     ],
     install_requires=[
 		'requests',
+        'yandex-oauth',
     ],
     include_package_data=True,
 )
