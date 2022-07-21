@@ -1,2 +1,3 @@
 requests
+yandex-oauth
 sphinx-argparse
