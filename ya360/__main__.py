@@ -172,7 +172,6 @@ def gen_parser():
 
 def start():
     config = yao.load_token(path[0])
-    print(config)
     if config is False:
         make_config()
         exit(0)
