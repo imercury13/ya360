@@ -1,11 +1,14 @@
 """
 Модуль функций автозапуска при старте пакета
 """
+
 from . import __version__
+from . import __path__ as path
 import argparse
 from .ya import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
 from .whois import whois
-from .configure import load_config, make_config
+from .configure import make_config
+from yandex_oauth import yao
 
 def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
@@ -168,7 +171,8 @@ def gen_parser():
     return parser
 
 def start():
-    config = load_config()
+    config = yao.load_token(path[0])
+    print(config)
     if config is False:
         make_config()
         exit(0)
