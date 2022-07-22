@@ -14,7 +14,7 @@ setup(
     maintainer_email='ya360@uh.net.ru',
     download_url='https://github.com/imercury13/ya360',
     url='https://ya360.uh.net.ru',
-    license='GPL-3.0',
+    license='MIT',
     project_urls={
         "Documentation": "https://ya360.readthedocs.io/",
         "Bug Tracker": "https://github.com/imercury13/ya360/issues"
