@@ -1,18 +1,26 @@
-ya360 package
-=============
+Пакет ya360
+===========
 
-Submodules
-----------
+Описание пакета
+---------------
 
-ya360.configure module
------------------
+.. automodule:: ya360
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Модули
+------
+
+Модуль ya360.configure
+----------------------
 
 .. automodule:: ya360.configure
    :members:
    :undoc-members:
    :show-inheritance:
 
-ya360.jreq module
+Модуль ya360.jreq
 -----------------
 
 .. automodule:: ya360.jreq
@@ -20,7 +28,7 @@ ya360.jreq module
    :undoc-members:
    :show-inheritance:
 
-ya360.tid module
+Модуль ya360.tid
 ----------------
 
 .. automodule:: ya360.tid
@@ -28,7 +36,7 @@ ya360.tid module
    :undoc-members:
    :show-inheritance:
 
-ya360.whois module
+Модуль ya360.whois
 ------------------
 
 .. automodule:: ya360.whois
@@ -36,18 +44,10 @@ ya360.whois module
    :undoc-members:
    :show-inheritance:
 
-ya360.ya module
+Модуль ya360.ya
 ---------------
 
 .. automodule:: ya360.ya
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: ya360
    :members:
    :undoc-members:
    :show-inheritance:

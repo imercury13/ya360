@@ -1,3 +1,5 @@
+"""Модуль функций работы с API Yandex 360"""
+
 from .tid import load_token, load_orgID
 from .jreq import jreq
 
@@ -5,11 +7,21 @@ import csv
 
 
 def check_request(req):
+	"""Функция проверки ответа запроса
+	
+	:param req: результат запроса
+	:type req: dict
+	"""
 	if 'code' in req and 'message' in req:
 		print('Код ошибки: '+str(req['code'])+' Сообщение: '+req['message'])
 		exit(1)
 
 def create_group(args):
+	"""Функция создания группы
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'
@@ -23,6 +35,11 @@ def create_group(args):
 	print('Группа создана с ID: '+str(cd['id']))
 
 def update_group(args):
+	"""Функция обновления информации о группе
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
@@ -36,6 +53,12 @@ def update_group(args):
 	print('Обновлено')
 
 def delete_group(args):
+	"""Функция удаления группы
+	(необратимая операция)
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
@@ -44,6 +67,11 @@ def delete_group(args):
 	print('Группа ID: '+str(args.ID)+' удалена')
 
 def add_member_group(args):
+	"""Функция добавления участника в группу
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members'
@@ -55,6 +83,11 @@ def add_member_group(args):
 	print('Добавлено')
 
 def delete_member_group(args):
+	"""Функция удаления участника из группы
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members/'+args.type+'/'+args.userid
@@ -63,6 +96,11 @@ def delete_member_group(args):
 	print(f'Участник {args.type}: {args.userid} удален из группы: {args.ID}')
 
 def show_group(args):
+	"""Функция отображения информации о группе
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	if args.members:
@@ -95,6 +133,11 @@ def show_group(args):
 			print('{:>10s} {:s} {:s}'.format('',idu['type'],idu['id']))
 
 def show_groups(args):
+	"""Функция вывода списка всех групп
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/?'
@@ -126,6 +169,11 @@ def show_groups(args):
 
 
 def create_department(args):
+	"""Функция создания подразделения
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'
@@ -139,6 +187,11 @@ def create_department(args):
 	print('Подразделение создано с ID: '+str(cd['id']))
 
 def update_department(args):
+	"""Функция обновления информации о подразделении
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/'
@@ -156,6 +209,11 @@ def update_department(args):
 		print('{:>10s} {:s}'.format('',alias))
 
 def delete_department(args):
+	"""Функция удаления подразделения (необратимая операция)
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/'
@@ -164,6 +222,11 @@ def delete_department(args):
 	print('Подразделение ID: '+str(args.ID)+' удалено')
 
 def add_alias_department(args):
+	"""Функция добавления альяса подразделению
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/aliases/'
@@ -176,6 +239,11 @@ def add_alias_department(args):
 		print('{:>10s} {:s}'.format('',alias))
 
 def delete_alias_department(args):
+	"""Функция удаления альяса у подразделения
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/aliases/'+args.alias+'/'
@@ -184,6 +252,11 @@ def delete_alias_department(args):
 	print('Алиас удален')
 
 def show_department(args):
+	"""Функция вывода информации о подразделении
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/'
@@ -196,6 +269,11 @@ def show_department(args):
 		print('{:>10s} {:s}'.format('',alias))
 
 def show_departments(args):
+	"""Функция вывода списка всех подразделений
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/?'
@@ -233,6 +311,11 @@ def show_departments(args):
 			print('{0:>3d} {1:>3d} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format(d['id'], d['parentId'], d['label'], d['email'], d['name'], d['description']))
 
 def show_users(args):
+	"""Функция вывода списка всех пользователей
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/?'
@@ -270,6 +353,11 @@ def show_users(args):
 
 
 def show_user(args):
+	"""Функция вывода информации о пользователе
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/'
@@ -307,6 +395,11 @@ def show_user(args):
 		print('{:>20} {:>15}: {}'.format('',cn['type'],cn['value']))
 
 def update_user(args):
+	"""Функция обновления информации о пользователе
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/'
@@ -347,6 +440,11 @@ def update_user(args):
 	print('Обновлено')
 
 def create_user(args):
+	"""Функция создания пользователя
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'
@@ -382,6 +480,11 @@ def create_user(args):
 	print('Пользователь создан с ID: '+str(cd['id']))
 
 def delete_user(args):
+	"""Функция удаления пользователе (необратимая операция: будет удалено всё: почта, содержимое диска)
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)
@@ -390,6 +493,11 @@ def delete_user(args):
 	print('Пользователь удален')
 
 def add_alias_user(args):
+	"""Функция добавления альяса пользователю
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/aliases/'+args.alias+'/'
@@ -398,6 +506,11 @@ def add_alias_user(args):
 	print('Алиас добавлен')
 
 def delete_alias_user(args):
+	"""Функция удаления альяса у пользователя
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/aliases/'+args.alias+'/'
