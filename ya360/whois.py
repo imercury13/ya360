@@ -9,7 +9,8 @@ def search_in_groups(sstr):
 	
 	:param sstr: строка поиска
 	:type sstr: str
-	:returns: результат поиска
+	:return: результат поиска
+	:rtype: str
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
