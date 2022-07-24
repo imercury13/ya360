@@ -1,3 +1,4 @@
 requests
 yandex-oauth
 sphinx-argparse
+sphinx-sitemap

@@ -40,11 +40,12 @@ author = 'Igor Kuptsov'
 extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',
-    'sphinxarg.ext'
+    'sphinxarg.ext',
+    'sphinx_sitemap'
     ]
 
-html_extra_path = ["robots.txt"]
-
+#html_extra_path = ["robots.txt"]
+html_baseurl = 'https://ya360.readthedocs.io'
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
