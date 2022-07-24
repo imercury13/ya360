@@ -43,6 +43,8 @@ extensions = [
     'sphinxarg.ext'
     ]
 
+html_extra_path = ["robots.txt"]
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
