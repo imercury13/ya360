@@ -20,14 +20,6 @@
    :undoc-members:
    :show-inheritance:
 
-Модуль ya360.jreq
------------------
-
-.. automodule:: ya360.jreq
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Модуль ya360.tid
 ----------------
 

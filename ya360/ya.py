@@ -1,7 +1,7 @@
 """Модуль функций работы с API Yandex 360"""
 
 from .tid import load_token, load_orgID
-from .jreq import jreq
+from yandex_360 import ya360
 
 import csv
 
@@ -24,13 +24,12 @@ def create_group(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'
 	body = {}
 	body.update({'name':args.name})
 	if args.label: body.update({'label':args.label})
 	if args.adminIds: body.update({'adminIds':args.adminIds})
 	if args.description: body.update({'description':args.description})
-	cd = jreq('post', url, __token__, body)
+	cd = ya360.create_group(__token__, __orgID__, body)
 	check_request(cd)
 	print('Группа создана с ID: '+str(cd['id']))
 
@@ -42,13 +41,12 @@ def update_group(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
 	body = {}
 	if args.name: body.update({'name':args.name})
 	if args.label: body.update({'label':args.label})
 	if args.adminIds: body.update({'adminIds':args.adminIds})
 	if args.description: body.update({'description':args.description})
-	cd = jreq('patch', url, __token__, body)
+	cd = ya360.update_group(__token__, __orgID__, body, str(args.ID))
 	check_request(cd)
 	print('Обновлено')
 
@@ -61,8 +59,7 @@ def delete_group(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
-	dd = jreq('delete', url, __token__)
+	dd = ya360.delete_group(__token__, __orgID__, str(args.ID))
 	check_request(dd)
 	print('Группа ID: '+str(args.ID)+' удалена')
 
@@ -74,11 +71,10 @@ def add_member_group(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members'
 	body = {}
 	body.update({'id':args.userid})
 	body.update({'type':args.type})
-	cd = jreq('post', url, __token__, body)
+	cd = ya360.add_member_group(__token__, __orgID__, body, str(args.ID))
 	check_request(cd)
 	print('Добавлено')
 
@@ -90,8 +86,7 @@ def delete_member_group(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members/'+args.type+'/'+args.userid
-	groups = jreq('delete', url, __token__)
+	groups = ya360.delete_member_group(__token__, __orgID__, str(args.ID), args.type, args.userid)
 	check_request(groups)
 	print(f'Участник {args.type}: {args.userid} удален из группы: {args.ID}')
 
@@ -104,8 +99,7 @@ def show_group(args):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	if args.members:
-		url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/members/'
-		members = jreq('get', url, __token__)
+		members = ya360.show_members_group(__token__, __orgID__, str(args.ID))
 		check_request(members)
 		print('Группы:')
 		print('{:<4s} {:<50s}'.format('ID','Название группы'))
@@ -120,8 +114,7 @@ def show_group(args):
 		for member in members['users']:
 			print('{:>17s} {:>3d} {:<10s} {:<40s} {:<50s} {:<6s}'.format(member['id'], member['departmentId'], member['nickname'], member['name']['last']+' '+member['name']['first']+' '+member['name']['middle'], member['position'], member['gender']))
 	else:
-		url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/'+str(args.ID)+'/'
-		groups = jreq('get', url, __token__)
+		groups = ya360.show_group(__token__, __orgID__, str(args.ID))
 		check_request(groups)
 		print('{:>10s} {:d}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:d}\n'.format('ID:', groups['id'],'Тип:', groups['type'],'Название:',groups['name'],'Описание:', groups['description'],'E-mail:', groups['email'], 'Кол-во:', groups['membersCount']))
 		print('{:>10s} {:<100s}'.format('Участник:',''))
@@ -140,7 +133,7 @@ def show_groups(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/?'
+	url = ''
 
 	if args.page:
 		url += 'page='+str(args.page)+'&'
@@ -152,7 +145,7 @@ def show_groups(args):
 	else:
 		url += 'perPage=1000'
 
-	groups = jreq('get', url, __token__)
+	groups = ya360.show_groups(__token__, __orgID__, url)
 
 	check_request(groups)
 
@@ -176,13 +169,12 @@ def create_department(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'
 	body = {}
 	body.update({'label':args.label, 'parentId':args.parentId})
 	if args.name: body.update({'name':args.name})
 	if args.headId: body.update({'headId':args.headId})
 	if args.description: body.update({'description':args.description})
-	cd = jreq('post', url, __token__, body)
+	cd = ya360.create_department(__token__, __orgID__, body)
 	check_request(cd)
 	print('Подразделение создано с ID: '+str(cd['id']))
 
@@ -194,13 +186,12 @@ def update_department(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/'
 	body = {}
 	if args.parentId: body.update({'parentId':args.parentId})
 	if args.name: body.update({'name':args.name})
 	if args.headId: body.update({'headId':args.headId})
 	if args.description: body.update({'description':args.description})
-	ud = jreq('patch', url, __token__, body)
+	ud = ya360.update_department(__token__, __orgID__, body, str(args.ID))
 	check_request(ud)
 	print('Подразделение ID: '+str(ud['id'])+' обновлено')
 	print('{:>10s} {:d}\n{:>10s} {:d}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:s}\n{:>10s} {:d}\n'.format('ID:', ud['id'],'pID:', ud['parentId'],'Название:',ud['name'],'Описание:', ud['description'],'E-mail:', ud['email'], 'Ру-ль:', ud['headId'], 'Кол-во:', ud['membersCount']))
@@ -216,8 +207,7 @@ def delete_department(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/'
-	dd = jreq('delete', url, __token__)
+	dd = ya360.delete_department(__token__, __orgID__, str(args.ID))
 	check_request(dd)
 	print('Подразделение ID: '+str(args.ID)+' удалено')
 
@@ -229,9 +219,8 @@ def add_alias_department(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/aliases/'
 	body = {'alias':args.alias}
-	ud = jreq('post', url, __token__, body)
+	ud = ya360.add_alias_department(__token__, __orgID__, body, str(args.ID))
 	check_request(ud)
 	print('{:>10s} {:d}\n{:>10s} {:d}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:s}\n{:>10s} {:d}\n'.format('ID:', ud['id'],'pID:', ud['parentId'],'Название:',ud['name'],'Описание:', ud['description'],'E-mail:', ud['email'], 'Ру-ль:', ud['headId'], 'Кол-во:', ud['membersCount']))
 	print('{:>10s} {:100s}'.format('Алиасы:',''))
@@ -246,8 +235,7 @@ def delete_alias_department(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/aliases/'+args.alias+'/'
-	ud = jreq('delete', url, __token__)
+	ud = ya360.delete_alias_department(__token__, __orgID__, str(args.ID), args.alias)
 	check_request(ud)
 	print('Алиас удален')
 
@@ -259,8 +247,7 @@ def show_department(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/'+str(args.ID)+'/'
-	ds = jreq('get', url, __token__)
+	ds = ya360.show_department(__token__, __orgID__, str(args.ID))
 	check_request(ds)
 	print('{:>10s} {:d}\n{:>10s} {:d}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:s}\n{:>10s} {:d}\n'.format('ID:', ds['id'],'pID:', ds['parentId'],'Название:',ds['name'],'Описание:', ds['description'],'E-mail:', ds['email'], 'Ру-ль:', ds['headId'], 'Кол-во:', ds['membersCount']))
 
@@ -276,7 +263,7 @@ def show_departments(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/?'
+	url = ''
 
 	if args.page:
 		url += 'page='+str(args.page)+'&'
@@ -296,7 +283,7 @@ def show_departments(args):
 
 	url = url[:-1]
 
-	departments = jreq('get', url, __token__)
+	departments = ya360.show_departments(__token__, __orgID__, url)
 	check_request(departments)
 
 	if args.csv:
@@ -318,7 +305,7 @@ def show_users(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/?'
+	url = ''
 
 	if args.page:
 		url += 'page='+str(args.page)+'&'
@@ -332,7 +319,7 @@ def show_users(args):
 
 	url = url[:-1]
 
-	users = jreq('get', url, __token__)
+	users = ya360.show_users(__token__, __orgID__, url)
 	check_request(users)
 
 
@@ -360,8 +347,7 @@ def show_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/'
-	ds = jreq('get', url, __token__)
+	ds = ya360.show_user(__token__, __orgID__, str(args.ID))
 	check_request(ds)
 
 	print('{:>20s} {:<17s}'.format('ID:',ds['id']))
@@ -402,7 +388,6 @@ def update_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/'
 	body = {}
 	if args.name:
 		body.update({'name':{}})
@@ -435,7 +420,7 @@ def update_user(args):
 		if args.passwordChangeRequired == 'true':body.update({'passwordChangeRequired': True})
 		else: body.update({'passwordChangeRequired': False})
 
-	cd = jreq('patch', url, __token__, body)
+	cd = ya360.update_user(__token__, __orgID__, body, str(args.ID))
 	check_request(cd)
 	print('Обновлено')
 
@@ -447,7 +432,6 @@ def create_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'
 	body = {}
 	if args.name:
 		body.update({'name':{}})
@@ -475,7 +459,7 @@ def create_user(args):
 		if args.isAdmin == 'true':body.update({'isAdmin': True})
 		else: body.update({'isAdmin': False})
 
-	cd = jreq('post', url, __token__, body)
+	cd = ya360.create_user(__token__, __orgID__, body)
 	check_request(cd)
 	print('Пользователь создан с ID: '+str(cd['id']))
 
@@ -487,8 +471,7 @@ def delete_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)
-	ud = jreq('delete', url, __token__)
+	ud = ya360.delete_user(__token__, __orgID__, str(args.ID))
 	check_request(ud)
 	print('Пользователь удален')
 
@@ -500,8 +483,7 @@ def add_alias_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/aliases/'+args.alias+'/'
-	ud = jreq('post', url, __token__)
+	ud = ya360.add_alias_user(__token__, __orgID__, str(args.ID), args.alias)
 	check_request(ud)
 	print('Алиас добавлен')
 
@@ -513,7 +495,6 @@ def delete_alias_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/'+str(args.ID)+'/aliases/'+args.alias+'/'
-	ud = jreq('delete', url, __token__)
+	ud = ya360.delete_alias_user(__token__, __orgID__, str(args.ID), args.alias)
 	check_request(ud)
 	print('Алиас удален')

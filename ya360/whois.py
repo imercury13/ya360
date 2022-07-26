@@ -1,8 +1,7 @@
 """Модуль функций для whois"""
 from .tid import load_token, load_orgID
-from .jreq import jreq
 from .ya import check_request
-
+from yandex_360 import ya360
 
 def search_in_groups(sstr):
 	"""Функция поиска групп
@@ -15,8 +14,8 @@ def search_in_groups(sstr):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ret = {}
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/groups/?perPage=10000'
-	groups = jreq('get', url, __token__)
+	url = 'perPage=10000'
+	groups = ya360.show_groups(__token__, __orgID__, url)
 	check_request(groups)
 	for g in groups['groups']:
 		if g['label'] == sstr:
@@ -37,8 +36,8 @@ def search_in_departments(sstr):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ret = {}
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/departments/?perPage=1000'
-	departments = jreq('get', url, __token__)
+	url = 'perPage=1000'
+	departments = ya360.show_departments(__token__, __orgID__, url)
 	check_request(departments)
 	for d in departments['departments']:
 		if d['label'] == sstr:
@@ -60,8 +59,8 @@ def search_in_users(sstr):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ret = {}
-	url = 'https://api360.yandex.net/directory/v1/org/'+__orgID__+'/users/?perPage=1000'
-	users = jreq('get', url, __token__)
+	url = 'perPage=1000'
+	users = ya360.show_users(__token__, __orgID__, url)
 	check_request(users)
 	for u in users['users']:
 		if u['nickname'] == sstr:
