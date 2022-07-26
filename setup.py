@@ -33,8 +33,8 @@ setup(
 
     ],
     install_requires=[
-        'yandex-oauth',
-        'yandex-360'
+        'yandex-oauth>=1.1.1',
+        'yandex-360>=0.0.2'
     ],
     include_package_data=True,
 )
