@@ -1,4 +1,4 @@
-requests
+yandex-360
 yandex-oauth
 sphinx-argparse
 sphinx-sitemap

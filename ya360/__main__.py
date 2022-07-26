@@ -175,6 +175,7 @@ def start():
     if config is False:
         make_config()
         exit(0)
+        
     parser = gen_parser()
     args = parser.parse_args()
 
