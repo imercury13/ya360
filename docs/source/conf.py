@@ -44,7 +44,7 @@ extensions = [
     'sphinx_sitemap'
     ]
 
-#html_extra_path = ["robots.txt"]
+html_extra_path = ['_static/robots.txt']
 html_baseurl = 'https://ya360.readthedocs.io'
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
