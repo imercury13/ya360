@@ -22,10 +22,9 @@
 
 .. toctree::
    :maxdepth: 2
-   :caption:  Содержание:
+   :caption:  Содержание
 
    befo
    cmd
-   modules
    lic
    
