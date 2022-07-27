@@ -21,7 +21,7 @@ setup(
     },
     entry_points={
         'console_scripts':
-            ['ya360 = ya360.__main__:start'],
+            ['ya360 = ya360.cmd:start'],
     },
     classifiers=[
         'Operating System :: MacOS :: MacOS X',
