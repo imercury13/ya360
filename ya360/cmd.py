@@ -42,21 +42,21 @@ def gen_parser():
 
     parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя '
                                                                 '(ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ!)')
-    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
 
     parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас пользователю')
-    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('alias', type=str, help='alias')
 
     parser_user_comm = subparser_user.add_parser('delete-alias', help='Удалить алиас у пользователя')
-    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('alias', type=str, help='alias')
 
     parser_user_comm = subparser_user.add_parser('show', help='Вывести информацию о пользователе')
-    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
 
     parser_user_comm = subparser_user.add_parser('update', help='Изменить данные пользователя')
-    parser_user_comm.add_argument('ID', type=int, help='ID пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('--name', nargs='*', help='Фамилия Имя Отчество')
     parser_user_comm.add_argument('--about', type=str, help='Описание пользователя')
     parser_user_comm.add_argument('--birthday', type=str, help='YYYY-MM-DD')

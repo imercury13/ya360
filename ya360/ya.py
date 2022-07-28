@@ -1,7 +1,7 @@
 """Модуль функций работы с API Yandex 360"""
 
 from .tid import load_token, load_orgID
-from yandex_360 import ya360
+from yandex_360 import ya360, tools
 
 import csv
 
@@ -347,7 +347,10 @@ def show_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	ds = ya360.show_user(__token__, __orgID__, str(args.ID))
+
+	ID = tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__)['id']
+
+	ds = ya360.show_user(__token__, __orgID__, ID)
 	check_request(ds)
 
 	print('{:>20s} {:<17s}'.format('ID:',ds['id']))
@@ -420,7 +423,9 @@ def update_user(args):
 		if args.passwordChangeRequired == 'true':body.update({'passwordChangeRequired': True})
 		else: body.update({'passwordChangeRequired': False})
 
-	cd = ya360.update_user(__token__, __orgID__, body, str(args.ID))
+	ID = tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__)['id']
+
+	cd = ya360.update_user(__token__, __orgID__, body, ID)
 	check_request(cd)
 	print('Обновлено')
 
@@ -471,7 +476,10 @@ def delete_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	ud = ya360.delete_user(__token__, __orgID__, str(args.ID))
+
+	ID = tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__)['id']
+
+	ud = ya360.delete_user(__token__, __orgID__, ID)
 	check_request(ud)
 	print('Пользователь удален')
 
@@ -483,7 +491,12 @@ def add_alias_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	ud = ya360.add_alias_user(__token__, __orgID__, str(args.ID), args.alias)
+
+	ID = tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__)['id']
+
+	body = {'alias': args.alias}
+
+	ud = ya360.add_alias_user(__token__, __orgID__, ID, body)
 	check_request(ud)
 	print('Алиас добавлен')
 
@@ -495,6 +508,9 @@ def delete_alias_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	ud = ya360.delete_alias_user(__token__, __orgID__, str(args.ID), args.alias)
+
+	ID = tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__)['id']
+
+	ud = ya360.delete_alias_user(__token__, __orgID__, ID, args.alias)
 	check_request(ud)
 	print('Алиас удален')
