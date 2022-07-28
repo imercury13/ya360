@@ -483,7 +483,10 @@ def add_alias_user(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	ud = ya360.add_alias_user(__token__, __orgID__, str(args.ID), args.alias)
+
+	body = {'alias':args.alias}
+
+	ud = ya360.add_alias_user(__token__, __orgID__, str(args.ID), body)
 	check_request(ud)
 	print('Алиас добавлен')
 
