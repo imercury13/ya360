@@ -36,7 +36,8 @@ extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',
     'sphinxarg.ext',
-    'sphinx_sitemap'
+    'sphinx_sitemap',
+    'sphinx.ext.autosectionlabel'
     ]
 
 html_extra_path = ['_static/robots.txt']
