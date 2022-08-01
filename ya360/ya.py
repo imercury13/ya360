@@ -1,5 +1,6 @@
 """Модуль функций работы с API Yandex 360"""
 
+from types import NoneType
 from .tid import load_token, load_orgID
 from yandex_360 import ya360, tools
 
@@ -11,10 +12,17 @@ def check_request(req):
 	
 	:param req: результат запроса
 	:type req: dict
+
 	"""
+
+	if type(req) is NoneType:
+		print('Not Found')
+		exit(1)
 	if 'code' in req and 'message' in req:
 		print('Код ошибки: '+str(req['code'])+' Сообщение: '+req['message'])
 		exit(1)
+
+	return req
 
 def create_group(args):
 	"""Функция создания группы
@@ -348,7 +356,9 @@ def show_user(args):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 
-	ID = tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__)['id']
+	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
+	#check_request(ID)
+	#ID = ID['id']
 
 	ds = ya360.show_user(__token__, __orgID__, ID)
 	check_request(ds)
