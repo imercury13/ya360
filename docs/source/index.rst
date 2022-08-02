@@ -21,10 +21,10 @@
    Позиционные и именованные аргументы могут изменяться от версии к версии.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption:  Содержание
 
    befo
-   cmd
+   cmd_main
    lic
    
