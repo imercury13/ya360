@@ -1,5 +1,6 @@
 """Модуль функций работы с API Yandex 360"""
 
+from types import NoneType
 from .tid import load_token, load_orgID
 from yandex_360 import ya360, tools
 
@@ -11,10 +12,17 @@ def check_request(req):
 	
 	:param req: результат запроса
 	:type req: dict
+
 	"""
+
+	if type(req) is NoneType:
+		print('Not Found')
+		exit(1)
 	if 'code' in req and 'message' in req:
 		print('Код ошибки: '+str(req['code'])+' Сообщение: '+req['message'])
 		exit(1)
+
+	return req
 
 def create_group(args):
 	"""Функция создания группы
@@ -348,20 +356,20 @@ def show_user(args):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 
-	ID = tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__)['id']
+	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
+	#check_request(ID)
+	#ID = ID['id']
 
 	ds = ya360.show_user(__token__, __orgID__, ID)
 	check_request(ds)
 
 	print('{:>20s} {:<17s}'.format('ID:',ds['id']))
-	print('{:>20s} {:<17s}'.format('Nickname:',ds['nickname']))
+	print('{:>20s} {:<17s}'.format('Nickname (Login):',ds['nickname']))
 	print('{:>20s} {:<17s}'.format('Ф.И.О.:',ds['name']['last']+' '+ds['name']['first']+' '+ds['name']['middle']))
 	print('{:>20s} {:<17s}'.format('Должность:',ds['position']))
-	print('{:>20s} {:<17d}'.format('ID подразделения:',ds['departmentId']))
-	gr = " ".join(str(x) for x in ds['groups'])
-	print('{:>20s} {:<17s}'.format('ID групп:', gr))
+	print('{:>20s} {:<17s}'.format('Подразделение:',ya360.show_department(__token__, __orgID__, str(ds['departmentId']))['name']))
 	print('{:>20s} {:<17s}'.format('E-mail:', ds['email']))
-	al = " ".join(str(x) for x in ds['aliases'])
+	al = ", ".join(str(x) for x in ds['aliases'])
 	print('{:>20s} {:<17s}'.format('Альясы:', al))
 	if ds['isAdmin']:
 		print('{:>20s} {:<17s}'.format('Администратор:', 'Да'))
@@ -379,6 +387,17 @@ def show_user(args):
 		print('{:>20s} {:<17s}'.format('Форма жизни:', 'Робот'))
 	else:
 		print('{:>20s} {:<17s}'.format('Форма жизни:', 'Живой человек'))
+	gr = " ".join(str(x) for x in ds['groups'])
+	print('{:>20s} {:<17s}'.format(' Состоит в группах:', ''))
+	for group in ds['groups']:
+		#print(str(ya360.show_group(__token__, __orgID__, str(group))['label']))
+		#try:
+		name = ya360.show_group(__token__, __orgID__, str(group))
+		check_request(name)
+		print(f'{"":>20} {name["name"]:<17s}')
+		#except Exception as e:
+		#	print(f'{"":>20} {str(ya360.show_group(__token__, __orgID__, str(group))["id"]):<17s} - {e}')
+		#print('{:>20} {:<17}'.format('', str(ya360.show_group(__token__, __orgID__, group['name'])['label'])))
 	print('{:>20s} {:<17s}'.format('Контакты:', ''))
 	for cn in ds['contacts']:
 		print('{:>20} {:>15}: {}'.format('',cn['type'],cn['value']))
