@@ -5,6 +5,7 @@ import ya360
 setup(
     name='ya360',
     version=ya360.__version__,
+    python_requires='=>3.6.0',
     packages=find_packages(),
     description='ya360 - Yandex 360 admin cli tool',
     long_description=open(join(dirname(__file__), 'README.rst')).read(),
