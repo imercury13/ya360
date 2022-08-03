@@ -1,6 +1,5 @@
 """Модуль функций работы с API Yandex 360"""
 
-from types import NoneType
 from .tid import load_token, load_orgID
 from yandex_360 import ya360, tools
 
@@ -15,7 +14,7 @@ def check_request(req):
 
 	"""
 
-	if type(req) is NoneType:
+	if req is None:
 		print('Not Found')
 		exit(1)
 	if 'code' in req and 'message' in req:
