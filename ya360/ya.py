@@ -388,15 +388,13 @@ def show_user(args):
 		print('{:>20s} {:<17s}'.format('Форма жизни:', 'Живой человек'))
 	gr = " ".join(str(x) for x in ds['groups'])
 	print('{:>20s} {:<17s}'.format(' Состоит в группах:', ''))
+	groups = ya360.show_groups(__token__,__orgID__,'perPage=1000')['groups']
+	check_request(groups)
 	for group in ds['groups']:
-		#print(str(ya360.show_group(__token__, __orgID__, str(group))['label']))
-		#try:
-		name = ya360.show_group(__token__, __orgID__, str(group))
-		check_request(name)
-		print(f'{"":>20} {name["name"]:<17s}')
-		#except Exception as e:
-		#	print(f'{"":>20} {str(ya360.show_group(__token__, __orgID__, str(group))["id"]):<17s} - {e}')
-		#print('{:>20} {:<17}'.format('', str(ya360.show_group(__token__, __orgID__, group['name'])['label'])))
+		for in_groups in groups:
+			if in_groups['id'] == group:
+				name = in_groups
+		print(f'{"":>20} {name["name"]:s} ({name["label"]:s})')
 	print('{:>20s} {:<17s}'.format('Контакты:', ''))
 	for cn in ds['contacts']:
 		print('{:>20} {:>15}: {}'.format('',cn['type'],cn['value']))
