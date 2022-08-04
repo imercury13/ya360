@@ -84,34 +84,35 @@ def gen_parser():
     subparser_group = parser_group.add_subparsers(help='Действия над группой', dest='sub_com_group')
 
     parser_group_comm = subparser_group.add_parser('create', help='Создать группу')
-    parser_group_comm.add_argument('--label', type=str, help='Имя группы')
+    parser_group_comm.add_argument('label', type=str, help='Имя группы')
     parser_group_comm.add_argument('name', type=str, help='Название группы')
     parser_group_comm.add_argument('--adminIds', type=str, help='Руководители')
     parser_group_comm.add_argument('--description', type=str, help='Описание группы')
 
     parser_group_comm = subparser_group.add_parser('update', help='Изменить группу')
-    parser_group_comm.add_argument('ID', type=int, help='ID группы')
-    parser_group_comm.add_argument('--label', type=str, help='Имя группы')
+    parser_group_comm.add_argument('label', type=str, help='Имя группы')
+    parser_group_comm.add_argument('--newlabel', type=str, help='Новое имя группы')
     parser_group_comm.add_argument('--name', type=str, help='Название группы')
     parser_group_comm.add_argument('--adminIds', type=str, help='Руководители')
     parser_group_comm.add_argument('--description', type=str, help='Описание группы')
 
     parser_group_comm = subparser_group.add_parser('add-member', help='Добавить участника в группу')
-    parser_group_comm.add_argument('ID', type=int, help='ID группы')
-    parser_group_comm.add_argument('userid', type=str, help='ID участника')
-    parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
+    parser_group_comm.add_argument('label', type=str, help='Имя группы')
+    #parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
+    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения')
+    
 
     parser_group_comm = subparser_group.add_parser('delete-member', help='Удалить участника из группы')
-    parser_group_comm.add_argument('ID', type=int, help='ID группы')
-    parser_group_comm.add_argument('userid', type=str, help='ID участника')
-    parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
+    parser_group_comm.add_argument('label', type=str, help='Имя группы')
+    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения')
+    #parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
 
     parser_group_comm = subparser_group.add_parser('delete', help='Удалить группу')
-    parser_group_comm.add_argument('ID', type=int, help='ID группы')
+    parser_group_comm.add_argument('label', type=str, help='Имя группы')
 
     parser_group_comm = subparser_group.add_parser('show', help='Показать информацию о группе')
-    parser_group_comm.add_argument('ID', type=int, help='ID группы')
-    parser_group_comm.add_argument('--members', action='store_true', help='Отобразить членов группы')
+    parser_group_comm.add_argument('label', type=str, help='Имя группы')
+    #parser_group_comm.add_argument('--members', action='store_true', help='Отобразить членов группы')
 
 
     parser_groups = subparsers.add_parser('groups', help='Действия над группами')
@@ -129,30 +130,30 @@ def gen_parser():
     parser_department_comm = subparser_department.add_parser('create', help='Создать подразделение')
     parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
     parser_department_comm.add_argument('name', type=str, help='Название подразделения')
-    parser_department_comm.add_argument('--parentId', type=int, default=1, help='ID родительского подразделения')
-    parser_department_comm.add_argument('--headId', type=str, help='ID руководителя подразделения')
+    parser_department_comm.add_argument('--parentlabel', type=str, help='Имя родительского подразделения')
+    parser_department_comm.add_argument('--headlabel', type=str, help='Login руководителя подразделения')
     parser_department_comm.add_argument('--description', type=str, help='Описание подразделения')
 
     parser_department_comm = subparser_department.add_parser('update', help='Изменить подразделение')
-    parser_department_comm.add_argument('ID', type=int, help='ID подразделения')
-    parser_department_comm.add_argument('--label', type=str, help='Имя подразделения')
-    parser_department_comm.add_argument('--parentId', type=int, default=1, help='ID родительского подразделения')
+    parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
+    parser_department_comm.add_argument('--newlabel', type=str, help='Новое имя подразделения')
+    parser_department_comm.add_argument('--parentlabel', type=str, help='Имя родительского подразделения')
     parser_department_comm.add_argument('--name', type=str, help='Название подразделения')
-    parser_department_comm.add_argument('--headId', type=str, help='ID руководителя подразделения')
+    parser_department_comm.add_argument('--headnickname', type=str, help='Login руководителя подразделения')
     parser_department_comm.add_argument('--description', type=str, help='Описание подразделения')
 
     parser_department_comm = subparser_department.add_parser('add-alias', help='Добавить алиас подразделению')
-    parser_department_comm.add_argument('ID', type=int, help='ID подразделения')
+    parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
     parser_department_comm.add_argument('alias', type=str, help='alias')
 
     parser_department_comm = subparser_department.add_parser('delete-alias', help='Удалить алиас у подразделения')
-    parser_department_comm.add_argument('ID', type=int, help='ID подразделения')
+    parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
     parser_department_comm.add_argument('alias', type=str, help='alias')
 
     parser_department_comm = subparser_department.add_parser('delete', help='Удалить подразделение')
-    parser_department_comm.add_argument('ID', type=int, help='ID подразделения')
+    parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
     parser_department_comm = subparser_department.add_parser('show', help='Показать')
-    parser_department_comm.add_argument('ID', type=int, help='ID подразделения')
+    parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
 
 
     parser_departments = subparsers.add_parser('departments', help='Действия над подразделениями')

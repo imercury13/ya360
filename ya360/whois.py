@@ -1,7 +1,23 @@
 """Модуль функций для whois"""
 from .tid import load_token, load_orgID
-from .ya import check_request
 from yandex_360 import ya360
+
+def check_request(req):
+	"""Функция проверки ответа запроса
+	
+	:param req: результат запроса
+	:type req: dict
+
+	"""
+
+	if req is None:
+		print('Not Found')
+		exit(1)
+	if 'code' in req and 'message' in req:
+		print('Код ошибки: '+str(req['code'])+' Сообщение: '+req['message'])
+		exit(1)
+
+	return req
 
 def search_in_groups(sstr):
 	"""Функция поиска групп
