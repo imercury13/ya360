@@ -121,16 +121,16 @@ def show_group(args):
 			users = check_request(ya360.show_users(__token__,__orgID__,'perPage=1000'))['users']
 			for user in users:
 				if user['id'] == idu['id']:
-					print(f'{"":>10s} {user["name"]["last"]} {user["name"]["first"]} {user["name"]["middle"]} ({user["nickname"]})')
+					print(f'{"":>10s} Пользователь: {user["name"]["last"]} {user["name"]["first"]} {user["name"]["middle"]} ({user["nickname"]})')
 		if idu['type'] == 'group':
 			for lgroup in lgroups:
 				if str(lgroup['id']) == idu['id']:
-					print(f'{"":>10s} {lgroup["name"]} ({lgroup["label"]})')
+					print(f'{"":>10s} Группа: {lgroup["name"]} ({lgroup["label"]})')
 		if idu['type'] == 'department':
 			departments = check_request(ya360.show_departments(__token__,__orgID__,'perPage=1000'))['departments']
 			for department in departments:
 				if str(department['id']) == idu['id']:
-					print(f'{"":>10s} {department["name"]} ({department["label"]})')
+					print(f'{"":>10s} Подразделение: {department["name"]} ({department["label"]})')
 
 def show_groups(args):
 	"""Функция вывода списка всех групп
