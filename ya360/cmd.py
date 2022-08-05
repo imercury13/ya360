@@ -15,7 +15,7 @@ def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
     """
     parser = argparse.ArgumentParser(prog='ya360')
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s '+__version__)
+    parser.add_argument('-V', '--version', action='version', version='%(prog)s '+__version__)
 
     subparsers = parser.add_subparsers(dest='sub_com')
 
@@ -55,8 +55,7 @@ def gen_parser():
     parser_user_comm.add_argument('--position', type=str, help='Должность')
     parser_user_comm.add_argument('--timezone', type=str, help='Часовой пояс')
 
-    parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя '
-                                                                '(ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ!)')
+    parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя (ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ!)')
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
 
     parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас пользователю')
@@ -93,12 +92,12 @@ def gen_parser():
 
     parser_group_comm = subparser_group.add_parser('add-member', help='Добавить участника в группу')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
-    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения')
+    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения)')
     
 
     parser_group_comm = subparser_group.add_parser('delete-member', help='Удалить участника из группы')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
-    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения')
+    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения)')
 
     parser_group_comm = subparser_group.add_parser('delete', help='Удалить группу')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
