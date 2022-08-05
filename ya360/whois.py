@@ -14,7 +14,7 @@ def check_request(req):
 		print('Not Found')
 		exit(1)
 	if 'code' in req and 'message' in req:
-		print('Код ошибки: '+str(req['code'])+' Сообщение: '+req['message'])
+		print(f'Код ошибки: {req["code"]} Сообщение: {req["message"]}')
 		exit(1)
 
 	return req
@@ -31,8 +31,7 @@ def search_in_groups(sstr):
 	__orgID__ = load_orgID()
 	ret = {}
 	url = 'perPage=10000'
-	groups = ya360.show_groups(__token__, __orgID__, url)
-	check_request(groups)
+	groups = check_request(ya360.show_groups(__token__, __orgID__, url))
 	for g in groups['groups']:
 		if g['label'] == sstr:
 			ret.update(g)
@@ -53,8 +52,7 @@ def search_in_departments(sstr):
 	__orgID__ = load_orgID()
 	ret = {}
 	url = 'perPage=1000'
-	departments = ya360.show_departments(__token__, __orgID__, url)
-	check_request(departments)
+	departments = check_request(ya360.show_departments(__token__, __orgID__, url))
 	for d in departments['departments']:
 		if d['label'] == sstr:
 			ret.update(d)
@@ -76,8 +74,7 @@ def search_in_users(sstr):
 	__orgID__ = load_orgID()
 	ret = {}
 	url = 'perPage=1000'
-	users = ya360.show_users(__token__, __orgID__, url)
-	check_request(users)
+	users = check_request(ya360.show_users(__token__, __orgID__, url))
 	for u in users['users']:
 		if u['nickname'] == sstr:
 			ret.update(u)
@@ -101,15 +98,15 @@ def whois(args):
 	ret['user'] = search_in_users(args.name)
 	if len(ret['group']) > 0:
 		print('Найдена группа:')
-		print('{0:<3s} {1:<20s} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format('Id', 'Тип', 'Имя', 'E-mail', 'Название', 'Описание'))
-		print('{0:>3d} {1:<20s} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format(ret['group']['id'], ret['group']['type'], ret['group']['label'], ret['group']['email'], ret['group']['name'], ret['group']['description']))
+		print(f'{"ID":<3s} {"Тип":<20s} {"Имя":<15s} {"E-mail":<30s} {"Название":<50s} {"Описание":<50s}')
+		print(f'{ret["group"]["id"]:>3d} {ret["group"]["type"]:<20s} {ret["group"]["label"]:<15s} {ret["group"]["email"]:<30s} {ret["group"]["name"]:<50s} {ret["group"]["description"]:<50s}')
 	if len(ret['department']) > 0:
 		print('Найдено подразделение:')
-		print('{0:<3s} {1:<3s} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format('Id', 'pId', 'Имя', 'E-mail', 'Название', 'Описание'))
-		print('{0:>3d} {1:>3d} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format(ret['department']['id'], ret['department']['parentId'], ret['department']['label'], ret['department']['email'], ret['department']['name'], ret['department']['description']))
+		print(f'{"ID":<3s} {"pID":<3s} {"Имя":<15s} {"E-mail":<30s} {"Название":<50s} {"Описание":<50s}')
+		print(f'{ret["department"]["id"]:>3d} {ret["department"]["parentId"]:>3d} {ret["department"]["label"]:<15s} {ret["department"]["email"]:<30s} {ret["department"]["name"]:<50s} {ret["department"]["description"]:<50s}')
 	if len(ret['user']) > 0:
 		print('Найден пользователь:')
-		print('{:<17s} {:<3s} {:<25s} {:<40s}'.format('ID','dID','Nickname','Ф.И.О.'))
-		print('{:>17s} {:>3d} {:<25s} {:<40s}'.format(ret['user']['id'], ret['user']['departmentId'], ret['user']['nickname'], ret['user']['name']['last']+' '+ret['user']['name']['first']+' '+ret['user']['name']['middle']))
+		print(f'{"ID":<17s} {"dID":<3s} {"Nickname":<25s} {"Ф.И.О.":<40s}')
+		print(f'{ret["user"]["id"]:>17s} {ret["user"]["departmentId"]:>3d} {ret["user"]["nickname"]:<25s} {ret["user"]["name"]["last"]+" "+ret["user"]["name"]["first"]+" "+ret["user"]["name"]["middle"]:<40s}')
 	if len(ret['group']) == 0 and len(ret['department']) == 0 and len(ret['user']) == 0:
 		print('Ничего не найдено')

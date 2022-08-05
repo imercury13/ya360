@@ -3,11 +3,7 @@
 from .tid import load_token, load_orgID
 from yandex_360 import ya360, tools
 from .whois import search_in_users, search_in_groups, search_in_departments, check_request
-
 import csv
-
-
-
 
 def create_group(args):
 	"""Функция создания группы
@@ -53,7 +49,7 @@ def delete_group(args):
 	__orgID__ = load_orgID()
 	ID = check_request(tools.get_id_group_by_label(args.label, __token__, __orgID__))['id']
 	check_request(ya360.delete_group(__token__, __orgID__, str(ID)))
-	print('Группа ID: '+str(ID)+' удалена')
+	print(f'Группа ID: {ID} удалена')
 
 def add_member_group(args):
 	"""Функция добавления участника в группу
@@ -112,30 +108,29 @@ def show_group(args):
 
 	ID = check_request(tools.get_id_group_by_label(args.label, __token__, __orgID__))['id']
 	groups = check_request(ya360.show_group(__token__, __orgID__, str(ID)))
-	print('{:>10s} {:d}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:50s}\n{:>10s} {:d}\n'.format('ID:', groups['id'],'Тип:', groups['type'],'Имя:',groups['label'],'Название:',groups['name'],'Описание:', groups['description'],'E-mail:', groups['email'], 'Кол-во:', groups['membersCount']))
-	print('{:>10s} {:<100s}'.format('Участник:',''))
+	print(f'{"ID:":>10s} {groups["id"]:d}\n{"Тип:":>10s} {groups["type"]:50s}\n{"Имя:":>10s} {groups["label"]:50s}\n{"Название:":>10s} {groups["name"]:50s}\n{"Описание:":>10s} {groups["description"]:50s}\n{"E-mail:":>10s} {groups["email"]:50s}\n{"Кол-во:":>10s} {groups["membersCount"]:d}\n')
+	print(f'{"Участник:":>10s} {"":<100s}')
 	lgroups = check_request(ya360.show_groups(__token__,__orgID__,'perPage=1000'))['groups']
 	for idg in groups['memberOf']:
 		for lgroup in lgroups:
 				if str(lgroup['id']) == str(idg):
 					print(f'{"":>10s} {lgroup["name"]} ({lgroup["label"]})')
-	print('{:>10s} {:100s}'.format('Участники:',''))
-	users = check_request(ya360.show_users(__token__,__orgID__,'perPage=1000'))['users']
-	#lgroups = check_request(ya360.show_groups(__token__,__orgID__,'perPage=1000'))['groups']
-	departments = check_request(ya360.show_departments(__token__,__orgID__,'perPage=1000'))['departments']
+	print(f'{"Участники:":>10s} {"":100s}')
 	for idu in groups['members']:
 		if idu['type'] == 'user':
+			users = check_request(ya360.show_users(__token__,__orgID__,'perPage=1000'))['users']
 			for user in users:
 				if user['id'] == idu['id']:
-					print(f'{"":>10s} {user["name"]["last"]} {user["name"]["first"]} {user["name"]["middle"]} ({user["nickname"]})')
+					print(f'{"":>10s} Пользователь: {user["name"]["last"]} {user["name"]["first"]} {user["name"]["middle"]} ({user["nickname"]})')
 		if idu['type'] == 'group':
 			for lgroup in lgroups:
 				if str(lgroup['id']) == idu['id']:
-					print(f'{"":>10s} {lgroup["name"]} ({lgroup["label"]})')
+					print(f'{"":>10s} Группа: {lgroup["name"]} ({lgroup["label"]})')
 		if idu['type'] == 'department':
+			departments = check_request(ya360.show_departments(__token__,__orgID__,'perPage=1000'))['departments']
 			for department in departments:
 				if str(department['id']) == idu['id']:
-					print(f'{"":>10s} {department["name"]} ({department["label"]})')
+					print(f'{"":>10s} Подразделение: {department["name"]} ({department["label"]})')
 
 def show_groups(args):
 	"""Функция вывода списка всех групп
@@ -162,13 +157,13 @@ def show_groups(args):
 	if args.csv:
 		with open(args.csv, 'w') as csvfile:
 			writer = csv.writer(csvfile, dialect='excel')
-			writer.writerow(['Id', 'Type', 'Label', 'E-mail', 'Name', 'Description'])
+			writer.writerow(['Id', 'Тип', 'Имя', 'E-mail', 'Название', 'Описание'])
 			for d in groups['groups']:
 				writer.writerow([d['id'], d['type'], d['label'], d['email'], d['name'], d['description']])
 	else:
-		print('{0:<3s} {1:<20s} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format('Id', 'Type', 'Label', 'E-mail', 'Name', 'Description'))
+		print(f'{"Id":<3s} {"Имя":<15s} {"E-mail":<30s} {"Название":<50s} {"Описание":<s}')
 		for d in groups['groups']:
-			print('{0:>3d} {1:<20s} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format(d['id'], d['type'], d['label'], d['email'], d['name'], d['description']))
+			print(f'{d["id"]:>3d} {d["label"]:<15s} {d["email"]:<30s} {d["name"]:<50s} {d["description"]:<s}')
 
 
 def create_department(args):
@@ -194,7 +189,7 @@ def create_department(args):
 				body.update({'parentId':dep['id']})
 	if args.description: body.update({'description':args.description})
 	cd = check_request(ya360.create_department(__token__, __orgID__, body))
-	print('Подразделение создано с ID: '+str(cd['id']))
+	print(f'Подразделение создано с ID: {cd["id"]}')
 
 def update_department(args):
 	"""Функция обновления информации о подразделении
@@ -287,9 +282,9 @@ def show_department(args):
 
 	print(f'{"ID:":>10s} {ds["id"]:>d}\n{"Имя":>10s} {ds["label"]:s}\n{"Название:":>10s} {ds["name"]:50s}\n{"Описание:":>10s} {ds["description"]:50s}\n{"E-mail:":>10s} {ds["email"]:50s}\n{"Ру-ль:":>10s} {hname:s}\n{"Кол-во:":>10s} {ds["membersCount"]:d}\n')
 	print(f'{"В составе:":>10s} {dname:s}\n')
-	print('{:>10s} {:100s}'.format('Алиасы:',''))
+	print(f'{"Алиасы:":>10s} {"":100s}')
 	for alias in ds['aliases']:
-		print('{:>10s} {:s}'.format('',alias))
+		print(f'{"":>10s} {alias:s}')
 
 def show_departments(args):
 	"""Функция вывода списка всех подразделений
@@ -324,13 +319,13 @@ def show_departments(args):
 	if args.csv:
 		with open(args.csv, 'w') as csvfile:
 			writer = csv.writer(csvfile, dialect='excel')
-			writer.writerow(['Id', 'pId', 'Label', 'E-mail', 'Name', 'Description'])
+			writer.writerow(['Id', 'pId', 'Имя', 'E-mail', 'Название', 'Описание'])
 			for d in departments['departments']:
 				writer.writerow([d['id'], d['parentId'], d['label'], d['email'], d['name'], d['description']])
 	else:
-		print('{0:<3s} {1:<3s} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format('Id', 'pId', 'Label', 'E-mail', 'Name', 'Description'))
+		print(f'{"Id":<3s} {"pId":<3s} {"Имя":<15s} {"E-mail":<30s} {"Название":<50s} {"Описание":<50s}')
 		for d in departments['departments']:
-			print('{0:>3d} {1:>3d} {2:<15s} {3:<30s} {4:<50s} {5:<50s}'.format(d['id'], d['parentId'], d['label'], d['email'], d['name'], d['description']))
+			print(f'{d["id"]:>3d} {d["parentId"]:>3d} {d["label"]:<15s} {d["email"]:<30s} {d["name"]:<50s} {d["description"]:<50s}')
 
 def show_users(args):
 	"""Функция вывода списка всех пользователей
@@ -363,13 +358,15 @@ def show_users(args):
 			for member in users['users']:
 				gr = " ".join(str(x) for x in member['groups'])
 				al = " ".join(str(x) for x in member['aliases'])
-				writer.writerow([member['id'], member['departmentId'], member['nickname'], member['name']['last'],member['name']['first'],member['name']['middle'], al, gr])
+				nm = member['name']['last']+' '+member['name']['first']+' '+member['name']['middle']
+				writer.writerow([member['id'], member['departmentId'], member['nickname'], nm, al, gr])
 	else:
-		print('{:<17s} {:<3s} {:<25s} {:<40s} {:<30s} {:<s}'.format('ID','dID','Nickname','Ф.И.О.', 'Альясы','ID групп'))
+		print(f'{"ID":<17s} {"dID":<3s} {"Nickname":<25s} {"Ф.И.О.":<40s} {"Альясы":<30s} {"ID групп":<s}')
 		for member in users['users']:
 			gr = " ".join(str(x) for x in member['groups'])
 			al = " ".join(str(x) for x in member['aliases'])
-			print('{:>17s} {:>3d} {:<25s} {:<40s} {:<30s} {:<}'.format(member['id'], member['departmentId'], member['nickname'], member['name']['last']+' '+member['name']['first']+' '+member['name']['middle'], al, gr))
+			nm = member['name']['last']+' '+member['name']['first']+' '+member['name']['middle']
+			print(f'{member["id"]:>17s} {member["departmentId"]:>3d} {member["nickname"]:<25s} {nm:<40s} {al:<30s} {gr:<}')
 
 
 def show_user(args):
@@ -385,42 +382,40 @@ def show_user(args):
 	
 	ds = check_request(ya360.show_user(__token__, __orgID__, ID))
 
-	print('{:>20s} {:<17s}'.format('ID:',ds['id']))
-	print('{:>20s} {:<17s}'.format('Nickname (Login):',ds['nickname']))
-	print('{:>20s} {:<17s}'.format('Ф.И.О.:',ds['name']['last']+' '+ds['name']['first']+' '+ds['name']['middle']))
-	print('{:>20s} {:<17s}'.format('Должность:',ds['position']))
-	print('{:>20s} {:<17s}'.format('Подразделение:',ya360.show_department(__token__, __orgID__, str(ds['departmentId']))['name']))
-	print('{:>20s} {:<17s}'.format('E-mail:', ds['email']))
+	print(f'{"ID":>20s} {ds["id"]:<17s}')
+	print(f'{"Nickname (Login):":>20s} {ds["nickname"]:<17s}')
+	print(f'{"Ф.И.О.:":>20s} {ds["name"]["last"]+" "+ds["name"]["first"]+" "+ds["name"]["middle"]:<17s}')
+	print(f'{"Должность:":>20s} {ds["position"]:<17s}')
+	print(f'{"Подразделение:":>20s} {check_request(ya360.show_department(__token__, __orgID__, str(ds["departmentId"])))["name"]:<17s}')
+	print(f'{"E-mail:":>20s} {ds["email"]:<17s}')
 	al = ", ".join(str(x) for x in ds['aliases'])
-	print('{:>20s} {:<17s}'.format('Альясы:', al))
+	print(f'{"Альясы:":>20s} {al:<17s}')
 	if ds['isAdmin']:
-		print('{:>20s} {:<17s}'.format('Администратор:', 'Да'))
+		print(f'{"Администратор:":>20s} {"Да":<17s}')
 	else:
-		print('{:>20s} {:<17s}'.format('Администратор:', 'Нет'))
+		print(f'{"Администратор:":>20s} {"Нет":<17s}')
 	if ds['isDismissed']:
-		print('{:>20s} {:<17s}'.format('Статус сотрудника:', 'Уволен'))
+		print(f'{"Статус сотрудника:":>20s} {"Уволен":<17s}')
 	else:
-		print('{:>20s} {:<17s}'.format('Статус сотрудника:', 'Действующий'))
+		print(f'{"Статус сотрудника:":>20s} {"Действующий":<17s}')
 	if ds['isEnabled']:
-		print('{:>20s} {:<17s}'.format('Статус аккаунта:', 'Действующий'))
+		print(f'{"Статус аккаунта:":>20s} {"Действующий":<17s}')
 	else:
-		print('{:>20s} {:<17s}'.format('Статус аккаунта:', 'Заблокирован'))
+		print(f'{"Статус аккаунта:":>20s} {"Заблокирован":<17s}')
 	if ds['isRobot']:
-		print('{:>20s} {:<17s}'.format('Форма жизни:', 'Робот'))
+		print(f'{"Форма жизни:":>20s} {"Робот":<17s}')
 	else:
-		print('{:>20s} {:<17s}'.format('Форма жизни:', 'Живой человек'))
-	gr = " ".join(str(x) for x in ds['groups'])
-	print('{:>20s} {:<17s}'.format(' Состоит в группах:', ''))
-	groups = check_request(ya360.show_groups(__token__,__orgID__,'perPage=1000'))
-	groups = groups['groups']
+		print(f'{"Форма жизни:":>20s} {"Живой человек":<17s}')
+	print(f'{"Состоит в группах:":>20s} {"":<17s}')
+	groups = check_request(ya360.show_groups(__token__,__orgID__,'perPage=1000'))['groups']
 	for group in ds['groups']:
 		for in_groups in groups:
 			if in_groups['id'] == group:
 				name = in_groups
 		print(f'{"":>20} {name["name"]:s} ({name["label"]:s})')
-	print('{:>20s} {:<17s}'.format('Контакты:', ''))
+	print(f'{"Контакты:":>20s} {"":<17s}')
 	for cn in ds['contacts']:
-		print('{:>20} {:>15}: {}'.format('',cn['type'],cn['value']))
+		print(f'{"":>10} {cn["type"]:>15}: {cn["value"]}')
 
 def update_user(args):
 	"""Функция обновления информации о пользователе
@@ -503,10 +498,10 @@ def create_user(args):
 		else: body.update({'isAdmin': False})
 
 	cd = check_request(ya360.create_user(__token__, __orgID__, body))
-	print('Пользователь создан с ID: '+str(cd['id']))
+	print(f'Пользователь создан с ID: {cd["id"]}')
 
 def delete_user(args):
-	"""Функция удаления пользователе (необратимая операция: будет удалено всё: почта, содержимое диска)
+	"""Функция удаления пользователя (необратимая операция: будет удалено всё: почта, содержимое диска)
 	
 	:param args: словарь аргументов командной строки
 	:type args: dict

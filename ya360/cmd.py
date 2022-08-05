@@ -15,7 +15,7 @@ def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
     """
     parser = argparse.ArgumentParser(prog='ya360')
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s '+__version__)
+    parser.add_argument('-V', '--version', action='version', version='%(prog)s '+__version__)
 
     subparsers = parser.add_subparsers(dest='sub_com')
 
@@ -40,21 +40,6 @@ def gen_parser():
     parser_user_comm.add_argument('--position', type=str, help='Должность')
     parser_user_comm.add_argument('--timezone', type=str, help='Часовой пояс')
 
-    parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя '
-                                                                '(ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ!)')
-    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
-
-    parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас пользователю')
-    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
-    parser_user_comm.add_argument('alias', type=str, help='alias')
-
-    parser_user_comm = subparser_user.add_parser('delete-alias', help='Удалить алиас у пользователя')
-    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
-    parser_user_comm.add_argument('alias', type=str, help='alias')
-
-    parser_user_comm = subparser_user.add_parser('show', help='Вывести информацию о пользователе')
-    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
-
     parser_user_comm = subparser_user.add_parser('update', help='Изменить данные пользователя')
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('--name', nargs='*', help='Фамилия Имя Отчество')
@@ -70,16 +55,25 @@ def gen_parser():
     parser_user_comm.add_argument('--position', type=str, help='Должность')
     parser_user_comm.add_argument('--timezone', type=str, help='Часовой пояс')
 
+    parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя (ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ!)')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
 
-    parser_users = subparsers.add_parser('users', help='Действия над пользователями')
-    subparser_users = parser_users.add_subparsers(help='Действия над пользователями', dest='sub_com_users')
+    parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас пользователю')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
+    parser_user_comm.add_argument('alias', type=str, help='alias')
 
-    parser_users_comm = subparser_users.add_parser('show', help='Вывести список всех пользователей')
-    parser_users_comm.add_argument('--page', type=int, help='Номер страницы')
-    parser_users_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
-    parser_users_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
+    parser_user_comm = subparser_user.add_parser('delete-alias', help='Удалить алиас у пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
+    parser_user_comm.add_argument('alias', type=str, help='alias')
 
+    parser_user_comm = subparser_user.add_parser('show', help='Вывести информацию о пользователе')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
 
+    parser_user_comm = subparser_user.add_parser('show-all', help='Вывести список пользователей')
+    parser_user_comm.add_argument('--page', type=int, help='Номер страницы')
+    parser_user_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
+    parser_user_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
+    
     parser_group = subparsers.add_parser('group', help='Действия над группой')
     subparser_group = parser_group.add_subparsers(help='Действия над группой', dest='sub_com_group')
 
@@ -98,31 +92,23 @@ def gen_parser():
 
     parser_group_comm = subparser_group.add_parser('add-member', help='Добавить участника в группу')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
-    #parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
-    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения')
+    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения)')
     
 
     parser_group_comm = subparser_group.add_parser('delete-member', help='Удалить участника из группы')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
-    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения')
-    #parser_group_comm.add_argument('type', choices=['user','group','department'], help='Тип участника')
+    parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения)')
 
     parser_group_comm = subparser_group.add_parser('delete', help='Удалить группу')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
 
     parser_group_comm = subparser_group.add_parser('show', help='Показать информацию о группе')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
-    #parser_group_comm.add_argument('--members', action='store_true', help='Отобразить членов группы')
 
-
-    parser_groups = subparsers.add_parser('groups', help='Действия над группами')
-    subparser_groups = parser_groups.add_subparsers(help='Действия над группами', dest='sub_com_groups')
-
-    parser_groups_comm = subparser_groups.add_parser('show', help='Показать информацию о группах')
-    parser_groups_comm.add_argument('--page', type=int, help='Номер страницы')
-    parser_groups_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
-    parser_groups_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
-
+    parser_group_comm = subparser_group.add_parser('show-all', help='Показать список групп ')
+    parser_group_comm.add_argument('--page', type=int, help='Номер страницы')
+    parser_group_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
+    parser_group_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
     parser_department = subparsers.add_parser('department', help='Действия над подразделением')
     subparser_department = parser_department.add_subparsers(help='Действия над подразделением', dest='sub_com_department')
@@ -152,24 +138,17 @@ def gen_parser():
 
     parser_department_comm = subparser_department.add_parser('delete', help='Удалить подразделение')
     parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
-    parser_department_comm = subparser_department.add_parser('show', help='Показать')
+    parser_department_comm = subparser_department.add_parser('show', help='Показать информацию о подразделении')
     parser_department_comm.add_argument('label', type=str, help='Имя подразделения')
-
-
-    parser_departments = subparsers.add_parser('departments', help='Действия над подразделениями')
-    subparser_departments = parser_departments.add_subparsers(help='Действия над подразделениями', dest='sub_com_departments')
-
-    parser_departments_comm = subparser_departments.add_parser('show', help='Показать все подразделения')
-    parser_departments_comm.add_argument('--page', type=int, help='Номер страницы')
-    parser_departments_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
-    parser_departments_comm.add_argument('--parentId', type=int, help='Идентификатор родителя')
-    parser_departments_comm.add_argument('--orderBy', choices=['id','name'], help='Сортировать по')
-    parser_departments_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
-
+    parser_department_comm = subparser_department.add_parser('show-all', help='Показать список подразделений')
+    parser_department_comm.add_argument('--page', type=int, help='Номер страницы')
+    parser_department_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
+    parser_department_comm.add_argument('--parentId', type=int, help='Идентификатор родителя')
+    parser_department_comm.add_argument('--orderBy', choices=['id','name'], help='Сортировать по')
+    parser_department_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
     parser_config = subparsers.add_parser('make-config', help='Создание конфигурационного файла')
     
-
     return parser
 
 def start():
@@ -197,6 +176,8 @@ def start():
     if args.sub_com == 'group':
         if args.sub_com_group == 'show':
             show_group(args)
+        if args.sub_com_group == 'show-all':
+            show_groups(args)
         if args.sub_com_group == 'create':
             create_group(args)
         if args.sub_com_group == 'delete':
@@ -208,13 +189,11 @@ def start():
         if args.sub_com_group == 'update':
             update_group(args)
 
-    if args.sub_com == 'groups':
-        if args.sub_com_groups == 'show':
-            show_groups(args)
-
     if args.sub_com == 'department':
         if args.sub_com_department == 'show':
             show_department(args)
+        if args.sub_com_department == 'show-all':
+            show_departments(args)
         if args.sub_com_department == 'create':
             create_department(args)
         if args.sub_com_department == 'update':
@@ -226,17 +205,11 @@ def start():
         if args.sub_com_department == 'delete':
             delete_department(args)
 
-    if args.sub_com == 'departments':
-        if args.sub_com_departments == 'show':
-            show_departments(args)
-
-    if args.sub_com == 'users':
-        if args.sub_com_users == 'show':
-            show_users(args)
-
     if args.sub_com == 'user':
         if args.sub_com_user == 'show':
             show_user(args)
+        if args.sub_com_user == 'show-all':
+            show_users(args)
         if args.sub_com_user == 'create':
             create_user(args)
         if args.sub_com_user == 'delete':
