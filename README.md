@@ -21,6 +21,6 @@ ya360 make-config
 
 ## Документация
 
-1. [ya360](https://ya360.readthdocs.io/)
+1. [ya360](https://ya360.readthedocs.io/)
 2. [yandex_360](https://yandex-360.readthedocs.io/)
 3. [yandex_oauth](https://yandex-oauth.readthedocs.io/)
