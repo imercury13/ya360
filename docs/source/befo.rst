@@ -7,7 +7,7 @@
 
 .. code-block:: console
 
-    $ apt install python3 python-pip python-venv
+    $ sudo apt install python3 python-pip python-venv
     $ pip install --upgrade pip
 
 .. note::
