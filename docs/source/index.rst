@@ -25,6 +25,6 @@
    :caption:  Содержание
 
    befo
-   cmd_main
+   cmd
    lic
    
