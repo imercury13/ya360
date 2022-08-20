@@ -1,5 +1,5 @@
-ya360 user create
------------------
+create
+------
 
 .. argparse::
    :module: ya360.cmd

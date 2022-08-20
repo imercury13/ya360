@@ -1,5 +1,5 @@
-ya360 user
-----------
+user
+----
 
 .. argparse::
    :module: ya360.cmd
@@ -10,5 +10,6 @@ ya360 user
 
 .. toctree::
     :maxdepth: 1
+    :caption:  Операции над пользователем
 
     cmd_user_create

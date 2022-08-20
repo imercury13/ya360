@@ -1,5 +1,5 @@
-ya360 whois
------------
+whois
+-----
 
 .. argparse::
    :module: ya360.cmd

@@ -9,7 +9,7 @@ ya360
   
 .. toctree::
    :maxdepth: 1
-   
+
    cmd_whois
    cmd_user
-
+   

@@ -26,5 +26,9 @@
 
    befo
    cmd
-   lic
    
+.. toctree::
+   :maxdepth: 6
+   :caption:  Лицензирование
+
+   lic
