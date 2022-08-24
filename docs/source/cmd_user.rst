@@ -17,3 +17,5 @@ user
     cmd_user_delete
     cmd_user_add-alias
     cmd_user_delete-alias
+    cmd_user_show
+    cmd_user_show-all

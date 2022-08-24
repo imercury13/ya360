@@ -12,4 +12,5 @@ ya360
 
    cmd_whois
    cmd_user
+   cmd_group
    

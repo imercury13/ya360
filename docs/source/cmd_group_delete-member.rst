@@ -1,5 +1,5 @@
-delete-alias
-------------
+delete-member
+-------------
 
 .. warning::
    Данная операция необратима!
@@ -8,4 +8,4 @@ delete-alias
    :module: ya360.cmd
    :func: gen_parser
    :prog: ya360
-   :path: user delete-alias
+   :path: group delete-member
