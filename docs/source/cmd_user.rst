@@ -13,3 +13,7 @@ user
     :caption:  Операции над пользователем
 
     cmd_user_create
+    cmd_user_update
+    cmd_user_delete
+    cmd_user_add-alias
+    cmd_user_delete-alias
