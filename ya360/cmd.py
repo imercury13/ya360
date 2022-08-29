@@ -8,7 +8,7 @@ import argparse
 from .ya import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
 from .whois import whois
 from .configure import make_config
-from .antispam import show_whitelist
+from .antispam import show_whitelist, add_in_whitelist
 from yandex_oauth import yao
 import datetime
 
@@ -152,6 +152,7 @@ def gen_parser():
     subparser_antispam = parser_antispam.add_subparsers(dest='sub_com_antispam')
     parser_antispam_comm = subparser_antispam.add_parser('show', help='Показать содержимое белого списка')
     parser_antispam_comm = subparser_antispam.add_parser('add', help='Добавить в белый список')
+    parser_antispam_comm.add_argument('ipcidr', type=str, help='Адрес или CIDR')
     parser_antispam_comm = subparser_antispam.add_parser('remove', help='Удалить из белого списка')
     parser_antispam_comm = subparser_antispam.add_parser('delete', help='Очистить белый список')
 
@@ -232,3 +233,6 @@ def start():
     if args.sub_com == 'antispam':
         if args.sub_com_antispam == 'show':
             show_whitelist()
+        if args.sub_com_antispam == 'add':
+            add_in_whitelist(args)
+    
