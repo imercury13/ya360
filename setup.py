@@ -8,7 +8,7 @@ setup(
     python_requires='>=3.6.9',
     packages=find_packages(),
     description='ya360 - Yandex 360 admin cli tool',
-    long_description=open(join(dirname(__file__), 'README.md')).read(),
+    long_description=open(join(dirname(__file__), 'README.rst')).read(),
     author=ya360.__author__,
     author_email='ya360@uh.net.ru',
     maintainer=ya360.__author__,
