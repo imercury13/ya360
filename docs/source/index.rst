@@ -21,7 +21,7 @@
    :caption:  Содержание
 
    befo
-   cmd
+   cmd_ya360
    
 .. toctree::
    :maxdepth: 6
