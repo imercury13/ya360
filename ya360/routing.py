@@ -20,7 +20,7 @@ def show_routing():
     print('Правила:')
     i=1
     for el in load_routing():
-        print(f'{"":5} {i:>3} {el}')
+        print(f'{"":5} {i:>3} {json.dumps(el)}')
         i+=1
 
 def add_in_routing(args):
