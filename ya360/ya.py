@@ -2,7 +2,8 @@
 
 from .tid import load_token, load_orgID
 from yandex_360 import ya360, tools
-from .whois import search_in_users, search_in_groups, search_in_departments, check_request
+from .tools import check_request
+from .whois import search_in_users, search_in_groups, search_in_departments
 import csv
 
 def create_group(args):
