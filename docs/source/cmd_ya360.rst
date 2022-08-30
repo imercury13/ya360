@@ -14,5 +14,7 @@ ya360
    cmd_user
    cmd_group
    cmd_department
+   cmd_antispam
+   cmd_routing
    cmd_make-config
    
