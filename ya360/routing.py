@@ -20,17 +20,17 @@ def show_routing():
     print('Правила:')
     i=1
     for el in load_routing():
-        print(f'{"":8} {i:>3} {el}')
+        print(f'{"":5} {i:>3} {el}')
         i+=1
 
 def add_in_routing(args):
     '''Функция добавление правила в таблицу'''
     rt = load_routing()
     
-    if args.pos:
-        rt.insert(args.pos, json.loads(args.rule))
+    if args.position:
+        rt.insert(args.position, json.loads(args.rule))
     else:
-        rt.append(args.rule)
+        rt.append(json.loads(args.rule))
     
     body = {'rules':rt}
 
@@ -40,3 +40,23 @@ def add_in_routing(args):
     check_request(routing.edit_routing(__token__, __orgID__, body))
 
     print('Добавлено')
+
+def remove_from_routing(args):
+    '''Функция удаления правила из таблицы'''
+
+    rt = load_routing()
+
+    try:
+        rt.pop(args.position-1)
+    except:
+        print('Неверный номер правила')
+        exit(1)
+    
+    body = {'rules':rt}
+
+    __token__ = load_token()
+    __orgID__ = load_orgID()
+
+    check_request(routing.edit_routing(__token__, __orgID__, body))
+
+    print('Удалено')
