@@ -1,7 +1,7 @@
 """Модуль функций для antispam"""
 
 from .tid import load_token, load_orgID
-from .whois import check_request
+from .tools import check_request
 from yandex_360 import antispam
 
 def load_whitelist():

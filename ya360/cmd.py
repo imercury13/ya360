@@ -9,6 +9,7 @@ from .ya import create_group, delete_group, update_group, add_member_group, dele
 from .whois import whois
 from .configure import make_config
 from .antispam import show_whitelist, add_in_whitelist, remove_from_whitelist, delete_whitelist
+from .routing import add_in_routing, show_routing, remove_from_routing
 from yandex_oauth import yao
 import datetime
 
@@ -157,6 +158,16 @@ def gen_parser():
     parser_antispam_comm.add_argument('ipcidr', type=str, help='Адрес или CIDR')
     parser_antispam_comm = subparser_antispam.add_parser('delete', help='Очистить белый список')
 
+    parser_routing = subparsers.add_parser('routing', help='Правила маршрутизации')
+    subparser_routing = parser_routing.add_subparsers(dest='sub_com_routing')
+    parser_routing_comm = subparser_routing.add_parser('show', help='Показать содержимое таблицы правил')
+    parser_routing_comm = subparser_routing.add_parser('add', help='Добавить правило')
+    parser_routing_comm.add_argument('rule', type=str, help='Правило')
+    parser_routing_comm.add_argument('-P', '--position', type=int, help='Позиция')
+    parser_routing_comm = subparser_routing.add_parser('remove', help='Удалить правило')
+    parser_routing_comm.add_argument('position', type=int, help='Позиция')
+
+
     parser_config = subparsers.add_parser('make-config', help='Создание конфигурационного файла')
     
     return parser
@@ -241,3 +252,10 @@ def start():
         if args.sub_com_antispam == 'delete':
             delete_whitelist()
     
+    if args.sub_com == 'routing':
+        if args.sub_com_routing == 'show':
+            show_routing()
+        if args.sub_com_routing == 'add':
+            add_in_routing(args)
+        if args.sub_com_routing == 'remove':
+            remove_from_routing(args)
