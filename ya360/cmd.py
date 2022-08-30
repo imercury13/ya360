@@ -16,7 +16,7 @@ import datetime
 def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
     """
-    parser = argparse.ArgumentParser(prog='ya360')
+    parser = argparse.ArgumentParser(prog='ya360', description='Утилита командной строки для Yandex 360')
     parser.add_argument('-V', '--version', action='version', version='%(prog)s '+__version__)
 
     subparsers = parser.add_subparsers(dest='sub_com')
@@ -27,9 +27,9 @@ def gen_parser():
 
 
     parser_user = subparsers.add_parser('user', help='Действия над пользователем')
-    subparser_user = parser_user.add_subparsers(help='Действия над пользователем', dest='sub_com_user')
+    subparser_user = parser_user.add_subparsers(dest='sub_com_user')
 
-    parser_user_comm = subparser_user.add_parser('create', help='Создать пользователя')
+    parser_user_comm = subparser_user.add_parser('create',help='Создать пользователя')
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('departmentId', type=int, help='ID подразделения')
     parser_user_comm.add_argument('name', nargs='*', help='Фамилия Имя Отчество')
@@ -57,7 +57,8 @@ def gen_parser():
     parser_user_comm.add_argument('--position', type=str, help='Должность')
     parser_user_comm.add_argument('--timezone', type=str, help='Часовой пояс')
 
-    parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя (ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ!)')
+    parser_user_comm = subparser_user.add_parser('delete', help='Удалить пользователя '
+                                                '(ВНИМАНИЕ! НЕОБРАТИМАЯ ОПЕРАЦИЯ! БУДУТ УДАЛЕНЫ ВСЕ ПОЧТОВЫЕ СООБЩЕНИЯ И ФАЙЛЫ НА ДИСКЕ!)')
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
 
     parser_user_comm = subparser_user.add_parser('add-alias', help='Добавить алиас пользователю')
