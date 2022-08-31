@@ -22,7 +22,7 @@
 
    befo
    cmd
-   
+
 .. toctree::
    :maxdepth: 6
    :caption:  Лицензирование
