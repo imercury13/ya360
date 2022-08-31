@@ -9,7 +9,7 @@ ya360
 
 Процесс установки и настройки описан в главе `Перед началом работы <https://ya360.readthedocs.io/ru/latest/befo.html>`_
 
-Документация на `ya360.readthedocs.io <https://ya360.readthedocs.io>`_, но она вряд ли вам нужна, если знаете как пользоваться командой:
+Документация на `ya360.readthedocs.io <https://ya360.readthedocs.io/ru/3.1.0/>`_, но она вряд ли вам нужна, если знаете как пользоваться командой:
 
 .. code-block:: console
     
