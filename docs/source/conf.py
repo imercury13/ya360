@@ -36,7 +36,6 @@ extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',
     'sphinxarg.ext',
-    'sphinx_argparse_cli',
     'sphinx_sitemap',
     ]
 
