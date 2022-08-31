@@ -25,6 +25,12 @@
 
 .. toctree::
    :maxdepth: 6
+   :caption:  Экспериментальный
+
+   routing
+
+.. toctree::
+   :maxdepth: 6
    :caption:  Лицензирование
 
    lic
