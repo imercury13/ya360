@@ -47,6 +47,7 @@ def gen_parser():
     parser_user_comm.add_argument('--name', nargs='*', help='Фамилия Имя Отчество')
     parser_user_comm.add_argument('--about', type=str, help='Описание пользователя')
     parser_user_comm.add_argument('--birthday', type=str, help='YYYY-MM-DD')
+    parser_user_comm.add_argument('--phone', type=str, help='Телефонный номер')
     parser_user_comm.add_argument('--departmentId', type=int, help='ID подразделения')
     parser_user_comm.add_argument('--gender', type=str, help='Пол')
     parser_user_comm.add_argument('--isAdmin', choices=['true', 'false'], help='Признак администратора организации')
