@@ -1,4 +1,4 @@
 yandex_360
 yandex_oauth
-sphinx-argparse>=0.3.2.dev3
+sphinx-argparse
 sphinx_sitemap

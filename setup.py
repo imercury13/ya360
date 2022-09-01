@@ -17,7 +17,7 @@ setup(
     url='https://ya360.uh.net.ru',
     license='MIT',
     project_urls={
-        "Documentation": "https://ya360.readthedocs.io/",
+        "Documentation": "https://ya360.readthedocs.io/ru/3.1.1/",
         "Bug Tracker": "https://github.com/imercury13/ya360/issues"
     },
     entry_points={
