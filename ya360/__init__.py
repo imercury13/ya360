@@ -4,5 +4,4 @@
 
 """
 
-__version__ = ''
-__author__ = 'Igor Kuptsov'
+__version__ = '0.0.1'
