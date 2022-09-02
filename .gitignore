@@ -135,3 +135,4 @@ pickle/
 pickle
 token.pickle
 ya360/__init__.py
+ya360/_version.py
