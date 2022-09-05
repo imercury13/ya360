@@ -16,7 +16,7 @@ import datetime
 def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
     """
-    parser = argparse.ArgumentParser(prog='ya360', description='Утилита командной строки для Yandex 360', epilog='Подробная документация находится по адресу https://ya360.readthedocs.io/')
+    parser = argparse.ArgumentParser(prog='ya360', description='Утилита командной строки для Yandex 360', epilog='Подробная документация находится по адресу https://ya360.readthedocs.io/ru/3.1.2')
     parser.add_argument('-V', '--version', action='version', version='%(prog)s '+__version__)
 
     subparsers = parser.add_subparsers(dest='sub_com')
