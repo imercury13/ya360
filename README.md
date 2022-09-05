@@ -8,7 +8,7 @@
 
 Процесс установки и настройки описан [здесь](https://ya360.readthedocs.io/ru/latest/befo.html)
 
-Документация на [ya360.readthedocs.io](https://ya360.readthedocs.io), но она вряд ли вам нужна, если знаете как пользоваться командой:
+Документация на [ya360.readthedocs.io](https://ya360.readthedocs.io/), но она вряд ли вам нужна, если знаете как пользоваться командой:
 
 ```bash
 ya360 -h
