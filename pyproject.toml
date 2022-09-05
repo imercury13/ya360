@@ -35,7 +35,7 @@ version = {attr = "ya360/_version.__version__"}
 [project.urls]
 "Homepage" = "https://ya360.uh.net.ru"
 "Bug Tracker" = "https://github.com/imercury13/ya360/issues"
-"Documentation" = "https://ya360.readthedocs.io/"
+"Documentation" = "https://ya360.readthedocs.io/ru/3.1.2"
 "Download" = "https://github.com/imercury13/ya360"
 
 
