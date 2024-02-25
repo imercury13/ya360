@@ -442,6 +442,7 @@ def update_user(args):
 		except:
 			pass
 	if args.about:body.update({'about':args.about})
+	if args.displayName:body.update({'displayName':args.displayName})
 	if args.departmentId: body.update({'departmentId':args.departmentId})
 	if args.gender:body.update({'gender':args.gender})
 	if args.phone: body.update({'contacts':[{'type':'phone_extension','value':str(args.phone)}]})
@@ -489,6 +490,7 @@ def create_user(args):
 			pass
 	if args.about:body.update({'about':args.about})
 	if args.nickname:body.update({'nickname':args.nickname})
+	if args.displayName:body.update({'displayName':args.displayName})
 	if args.departmentId: body.update({'departmentId':args.departmentId})
 	if args.gender:body.update({'gender':args.gender})
 	if args.phone: body.update({'contacts':[{'type':'phone_extension','value':str(args.phone)}]})

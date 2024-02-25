@@ -33,6 +33,7 @@ def gen_parser():
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('name', nargs='*', help='Фамилия Имя Отчество')
     parser_user_comm.add_argument('password', type=str, help='Пароль')
+    parser_user_comm.add_argument('--displayName', type=str, help='displayName')
     parser_user_comm.add_argument('--departmentId', type=int, default=1, help='ID подразделения')
     parser_user_comm.add_argument('--about', type=str, help='Описание пользователя')
     parser_user_comm.add_argument('--birthday', type=str, help='YYYY-MM-DD')
@@ -45,6 +46,7 @@ def gen_parser():
 
     parser_user_comm = subparser_user.add_parser('update', help='Изменить данные пользователя')
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
+    parser_user_comm.add_argument('--displayName', type=str, help='displayName')
     parser_user_comm.add_argument('--name', nargs='*', help='Фамилия Имя Отчество')
     parser_user_comm.add_argument('--about', type=str, help='Описание пользователя')
     parser_user_comm.add_argument('--birthday', type=str, help='YYYY-MM-DD')
