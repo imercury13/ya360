@@ -20,7 +20,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 
 project = 'ya360'
-copyright = '2022, Igor Kuptsov'
+copyright = '2024, Igor Kuptsov'
 author = 'Igor Kuptsov'
 
 # The full version, including alpha/beta/rc tags
