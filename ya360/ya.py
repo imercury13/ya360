@@ -386,6 +386,7 @@ def show_user(args):
 	print(f'{"ID":>20s} {ds["id"]:<17s}')
 	print(f'{"Nickname (Login):":>20s} {ds["nickname"]:<17s}')
 	print(f'{"Ф.И.О.:":>20s} {ds["name"]["last"]+" "+ds["name"]["first"]+" "+ds["name"]["middle"]:<17s}')
+	print(f'{"displayName:":>20s} {ds["displayName"]:<17s}')
 	print(f'{"Должность:":>20s} {ds["position"]:<17s}')
 	print(f'{"Подразделение:":>20s} {check_request(ya360.show_department(__token__, __orgID__, str(ds["departmentId"])))["name"]:<17s}')
 	print(f'{"E-mail:":>20s} {ds["email"]:<17s}')
