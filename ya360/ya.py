@@ -108,16 +108,16 @@ def show_group(args):
 	__orgID__ = load_orgID()
 
 	ID = check_request(tools.get_id_group_by_label(args.label, __token__, __orgID__))['id']
-	groups = check_request(ya360.show_group(__token__, __orgID__, str(ID)))
-	print(f'{"ID:":>10s} {groups["id"]:d}\n{"Тип:":>10s} {groups["type"]:50s}\n{"Имя:":>10s} {groups["label"]:50s}\n{"Название:":>10s} {groups["name"]:50s}\n{"Описание:":>10s} {groups["description"]:50s}\n{"E-mail:":>10s} {groups["email"]:50s}\n{"Кол-во:":>10s} {groups["membersCount"]:d}\n')
+	grps = check_request(groups.show_group(__token__, __orgID__, str(ID)))
+	print(f'{"ID:":>10s} {grps["id"]:d}\n{"Тип:":>10s} {grps["type"]:50s}\n{"Имя:":>10s} {grps["label"]:50s}\n{"Название:":>10s} {grps["name"]:50s}\n{"Описание:":>10s} {grps["description"]:50s}\n{"E-mail:":>10s} {grps["email"]:50s}\n{"Кол-во:":>10s} {grps["membersCount"]:d}\n')
 	print(f'{"Участник:":>10s} {"":<100s}')
 	lgroups = check_request(tools.get_groups(__token__,__orgID__,))['groups']
-	for idg in groups['memberOf']:
+	for idg in grps['memberOf']:
 		for lgroup in lgroups:
 				if str(lgroup['id']) == str(idg):
 					print(f'{"":>10s} {lgroup["name"]} ({lgroup["label"]})')
 	print(f'{"Участники:":>10s} {"":100s}')
-	for idu in groups['members']:
+	for idu in grps['members']:
 		if idu['type'] == 'user':
 			users = check_request(tools.get_users(__token__,__orgID__))['users']
 			for user in users:
@@ -258,8 +258,8 @@ def show_department(args):
 	__orgID__ = load_orgID()
 	ID = check_request(tools.get_id_department_by_label(args.label, __token__, __orgID__))['id']
 	ds = check_request(departments.show_department(__token__, __orgID__, str(ID)))
-	departments = check_request(tools.get_departments(__token__, __orgID__))['departments']
-	for department in departments:
+	depts = check_request(tools.get_departments(__token__, __orgID__))['departments']
+	for department in depts:
 		if department['id'] == ds['parentId']:
 			dname = department['name']+' ('+department['label']+')'
 	if ds['headId'] == '0':
