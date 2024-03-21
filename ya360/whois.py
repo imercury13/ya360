@@ -25,7 +25,7 @@ def search_in_groups(sstr):
 				for a in g['aliases']:
 					if a == sstr:
 						ret.update(g)
-		grps = groups.show_groups(token, orgID, page=grps['page']+1)
+		grps = groups.show_groups(__token__, __orgID__, page=grps['page']+1)
 
 	return ret
 
@@ -49,7 +49,7 @@ def search_in_departments(sstr):
 				for a in d['aliases']:
 					if a == sstr:
 						ret.update(d)
-		dep = departments.show_departments(token, orgID, page=dep['page']+1)
+		dep = departments.show_departments(__token__, __orgID__, page=dep['page']+1)
 
 	return ret
 
@@ -63,7 +63,7 @@ def search_in_users(sstr):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ret = {}
-	usrs = check_request(usrs.show_users(__token__, __orgID__))
+	usrs = check_request(users.show_users(__token__, __orgID__))
 	while usrs['page'] <= usrs['pages']:
 		for u in usrs['users']:
 			if u['nickname'] == sstr:
@@ -72,7 +72,7 @@ def search_in_users(sstr):
 				for a in u['aliases']:
 					if a == sstr:
 						ret.update(u)
-		usrs = users.show_users(token, orgID, page=usrs['page']+1)
+		usrs = users.show_users(__token__, __orgID__, page=usrs['page']+1)
 
 	return ret
 

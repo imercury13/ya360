@@ -1,9 +1,9 @@
 """Модуль функций работы с API Yandex 360"""
 
 from .tid import load_token, load_orgID
-from yandex_360 import ya360, tools
-from .tools import check_request
+from yandex_360 import users, departments, groups, mail, domains, dns, pwd, auth, logs, a2fa, org,  tools, antispam, routing, tools
 from .whois import search_in_users, search_in_groups, search_in_departments
+from .tools import check_request
 import csv
 
 def create_group(args):
@@ -19,7 +19,7 @@ def create_group(args):
 	if args.label: body.update({'label':args.label})
 	if args.adminIds: body.update({'adminIds':args.adminIds})
 	if args.description: body.update({'description':args.description})
-	cd = check_request(ya360.create_group(__token__, __orgID__, body))
+	cd = check_request(groups.create_group(__token__, __orgID__, body))
 	print('Группа создана с ID: '+str(cd['id']))
 
 def update_group(args):
@@ -36,7 +36,7 @@ def update_group(args):
 	if args.adminIds: body.update({'adminIds':args.adminIds})
 	if args.description: body.update({'description':args.description})
 	ID = check_request(tools.get_id_group_by_label(args.label, __token__, __orgID__))['id']
-	check_request(ya360.update_group(__token__, __orgID__, body, str(ID)))
+	check_request(groups.update_group(__token__, __orgID__, body, str(ID)))
 	print('Обновлено')
 
 def delete_group(args):
@@ -49,7 +49,7 @@ def delete_group(args):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ID = check_request(tools.get_id_group_by_label(args.label, __token__, __orgID__))['id']
-	check_request(ya360.delete_group(__token__, __orgID__, str(ID)))
+	check_request(groups.delete_group(__token__, __orgID__, str(ID)))
 	print(f'Группа ID: {ID} удалена')
 
 def add_member_group(args):
@@ -71,7 +71,7 @@ def add_member_group(args):
 	ret = search_in_departments(args.member)
 	if 'id' in ret:
 		body.update({'type':'department', 'id':ret['id']})
-	check_request(ya360.add_member_group(__token__, __orgID__, body, str(ID)))
+	check_request(groups.add_member_group(__token__, __orgID__, body, str(ID)))
 	print('Добавлено')
 
 def delete_member_group(args):
@@ -95,7 +95,7 @@ def delete_member_group(args):
 	if 'id' in ret:
 		a_type = 'department'
 		a_userid = ret['id']
-	check_request(ya360.delete_member_group(__token__, __orgID__, str(ID), a_type, str(a_userid)))
+	check_request(groups.delete_member_group(__token__, __orgID__, str(ID), a_type, str(a_userid)))
 	print(f'Участник {a_type}: {a_userid} удален из группы: {ID}')
 
 def show_group(args):
@@ -111,7 +111,7 @@ def show_group(args):
 	groups = check_request(ya360.show_group(__token__, __orgID__, str(ID)))
 	print(f'{"ID:":>10s} {groups["id"]:d}\n{"Тип:":>10s} {groups["type"]:50s}\n{"Имя:":>10s} {groups["label"]:50s}\n{"Название:":>10s} {groups["name"]:50s}\n{"Описание:":>10s} {groups["description"]:50s}\n{"E-mail:":>10s} {groups["email"]:50s}\n{"Кол-во:":>10s} {groups["membersCount"]:d}\n')
 	print(f'{"Участник:":>10s} {"":<100s}')
-	lgroups = check_request(ya360.show_groups(__token__,__orgID__,'perPage=1000'))['groups']
+	lgroups = check_request(tools.get_groups(__token__,__orgID__,))['groups']
 	for idg in groups['memberOf']:
 		for lgroup in lgroups:
 				if str(lgroup['id']) == str(idg):
@@ -119,7 +119,7 @@ def show_group(args):
 	print(f'{"Участники:":>10s} {"":100s}')
 	for idu in groups['members']:
 		if idu['type'] == 'user':
-			users = check_request(ya360.show_users(__token__,__orgID__,'perPage=1000'))['users']
+			users = check_request(tools.get_users(__token__,__orgID__))['users']
 			for user in users:
 				if user['id'] == idu['id']:
 					print(f'{"":>10s} Пользователь: {user["name"]["last"]} {user["name"]["first"]} {user["name"]["middle"]} ({user["nickname"]})')
@@ -128,7 +128,7 @@ def show_group(args):
 				if str(lgroup['id']) == idu['id']:
 					print(f'{"":>10s} Группа: {lgroup["name"]} ({lgroup["label"]})')
 		if idu['type'] == 'department':
-			departments = check_request(ya360.show_departments(__token__,__orgID__,'perPage=1000'))['departments']
+			departments = check_request(tools.get_departments(__token__,__orgID__))['departments']
 			for department in departments:
 				if str(department['id']) == idu['id']:
 					print(f'{"":>10s} Подразделение: {department["name"]} ({department["label"]})')
@@ -141,19 +141,8 @@ def show_groups(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = ''
-
-	if args.page:
-		url += 'page='+str(args.page)+'&'
-	else:
-		url += 'page=1&'
-
-	if args.perPage:
-		url += 'perPage='+str(args.perPage)+'&'
-	else:
-		url += 'perPage=1000'
-
-	groups = check_request(ya360.show_groups(__token__, __orgID__, url))
+	
+	groups = check_request(tools.get_groups(__token__, __orgID__))
 
 	if args.csv:
 		with open(args.csv, 'w') as csvfile:
@@ -179,17 +168,17 @@ def create_department(args):
 	body.update({'label':args.label, 'parentId':1})
 	if args.name: body.update({'name':args.name})
 	if args.headnickname: 
-		users = check_request(ya360.show_users(__token__, __orgID__, 'perPage=1000'))['users']
+		users = check_request(tools.get_users(__token__, __orgID__))['users']
 		for user in users:
 			if user['nickname'] == args.headnickname:
 				body.update({'headId':user['id']})
 	if args.parentlabel: 
-		departments = check_request(ya360.show_departments(__token__, __orgID__, 'perPage=1000'))['departments']
+		departments = check_request(tools.get_departments(__token__, __orgID__))['departments']
 		for dep in departments:
 			if dep['label'] == args.parentlabel:
 				body.update({'parentId':dep['id']})
 	if args.description: body.update({'description':args.description})
-	cd = check_request(ya360.create_department(__token__, __orgID__, body))
+	cd = check_request(departments.create_department(__token__, __orgID__, body))
 	print(f'Подразделение создано с ID: {cd["id"]}')
 
 def update_department(args):
@@ -203,13 +192,13 @@ def update_department(args):
 	body = {}
 
 	if args.parentlabel: 
-		departments = check_request(ya360.show_departments(__token__, __orgID__, 'perPage=1000'))['departments']
+		departments = check_request(tools.get_departments(__token__, __orgID__))['departments']
 		for dep in departments:
 			if dep['label'] == args.parentlabel:
 				body.update({'parentId':dep['id']})
 
 	if args.headId: 
-		users = check_request(ya360.show_users(__token__, __orgID__, 'perPage=1000'))['users']
+		users = check_request(tools.get_users(__token__, __orgID__))['users']
 		for user in users:
 			if user['nickname'] == args.headnickname:
 				body.update({'headId':user['id']})
@@ -218,7 +207,7 @@ def update_department(args):
 	if args.description: body.update({'description':args.description})
 	if args.newlabel: body.update({'label':args.newlabel})
 	ID = check_request(tools.get_id_department_by_label(args.label, __token__, __orgID__))['id']
-	check_request(ya360.update_department(__token__, __orgID__, body, str(ID)))
+	check_request(departments.update_department(__token__, __orgID__, body, str(ID)))
 	print('Подразделение обновлено')
 
 def delete_department(args):
@@ -230,7 +219,7 @@ def delete_department(args):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ID = check_request(tools.get_id_department_by_label(args.label, __token__, __orgID__))['id']
-	check_request(ya360.delete_department(__token__, __orgID__, str(ID)))
+	check_request(departments.delete_department(__token__, __orgID__, str(ID)))
 	
 	print('Подразделение удалено')
 
@@ -244,7 +233,7 @@ def add_alias_department(args):
 	__orgID__ = load_orgID()
 	body = {'alias':args.alias}
 	ID = check_request(tools.get_id_department_by_label(args.label, __token__, __orgID__))['id']
-	check_request(ya360.add_alias_department(__token__, __orgID__, body, str(ID)))
+	check_request(departments.add_alias_department(__token__, __orgID__, body, str(ID)))
 	print('Алиас добавлен')
 
 def delete_alias_department(args):
@@ -256,7 +245,7 @@ def delete_alias_department(args):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ID = check_request(tools.get_id_department_by_label(args.label, __token__, __orgID__))['id']
-	check_request(ya360.delete_alias_department(__token__, __orgID__, str(ID), args.alias))
+	check_request(departments.delete_alias_department(__token__, __orgID__, str(ID), args.alias))
 	print('Алиас удален')
 
 def show_department(args):
@@ -268,15 +257,15 @@ def show_department(args):
 	__token__ = load_token()
 	__orgID__ = load_orgID()
 	ID = check_request(tools.get_id_department_by_label(args.label, __token__, __orgID__))['id']
-	ds = check_request(ya360.show_department(__token__, __orgID__, str(ID)))
-	departments = check_request(ya360.show_departments(__token__, __orgID__, 'perPage=1000'))['departments']
+	ds = check_request(departments.show_department(__token__, __orgID__, str(ID)))
+	departments = check_request(tools.get_departments(__token__, __orgID__))['departments']
 	for department in departments:
 		if department['id'] == ds['parentId']:
 			dname = department['name']+' ('+department['label']+')'
 	if ds['headId'] == '0':
 		hname = 'Не назначен'
 	else:
-		users = check_request(ya360.show_users(__token__, __orgID__, 'perPage=1000'))['users']
+		users = check_request(tools.get_users(__token__, __orgID__))['users']
 		for user in users:
 			if user['id'] == ds['headId']:
 				hname = f"{user['name']['last']:s} {user['name']['first']:s} {user['name']['middle']:s} ({user['nickname']})"
@@ -295,27 +284,8 @@ def show_departments(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = ''
 
-	if args.page:
-		url += 'page='+str(args.page)+'&'
-	else:
-		url += 'page=1&'
-
-	if args.perPage:
-		url += 'perPage='+str(args.perPage)+'&'
-	else:
-		url += 'perPage=1000&'
-
-	if args.orderBy:
-		url += 'orderBy='+str(args.orderBy)+'&'
-
-	if args.parentId:
-		url += 'parentId='+str(args.parentId)+'&'
-
-	url = url[:-1]
-
-	departments = check_request(ya360.show_departments(__token__, __orgID__, url))
+	departments = check_request(tools.get_departments(__token__, __orgID__))
 
 	if args.csv:
 		with open(args.csv, 'w') as csvfile:
@@ -336,21 +306,8 @@ def show_users(args):
 	"""
 	__token__ = load_token()
 	__orgID__ = load_orgID()
-	url = ''
-
-	if args.page:
-		url += 'page='+str(args.page)+'&'
-	else:
-		url += 'page=1&'
-
-	if args.perPage:
-		url += 'perPage='+str(args.perPage)+'&'
-	else:
-		url += 'perPage=1000&'
-
-	url = url[:-1]
-
-	users = check_request(ya360.show_users(__token__, __orgID__, url))
+	
+	users = check_request(tools.get_users(__token__, __orgID__))
 
 	if args.csv:
 		with open(args.csv, 'w') as csvfile:
@@ -381,14 +338,14 @@ def show_user(args):
 
 	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
 	
-	ds = check_request(ya360.show_user(__token__, __orgID__, ID))
+	ds = check_request(users.show_user(__token__, __orgID__, ID))
 
 	print(f'{"ID":>20s} {ds["id"]:<17s}')
 	print(f'{"Nickname (Login):":>20s} {ds["nickname"]:<17s}')
 	print(f'{"Ф.И.О.:":>20s} {ds["name"]["last"]+" "+ds["name"]["first"]+" "+ds["name"]["middle"]:<17s}')
 	print(f'{"displayName:":>20s} {ds["displayName"]:<17s}')
 	print(f'{"Должность:":>20s} {ds["position"]:<17s}')
-	print(f'{"Подразделение:":>20s} {check_request(ya360.show_department(__token__, __orgID__, str(ds["departmentId"])))["name"]:<17s}')
+	print(f'{"Подразделение:":>20s} {check_request(departments.show_department(__token__, __orgID__, str(ds["departmentId"])))["name"]:<17s}')
 	print(f'{"E-mail:":>20s} {ds["email"]:<17s}')
 	al = ", ".join(str(x) for x in ds['aliases'])
 	print(f'{"Альясы:":>20s} {al:<17s}')
@@ -409,7 +366,7 @@ def show_user(args):
 	else:
 		print(f'{"Форма жизни:":>20s} {"Живой человек":<17s}')
 	print(f'{"Состоит в группах:":>20s} {"":<17s}')
-	groups = check_request(ya360.show_groups(__token__,__orgID__,'perPage=1000'))['groups']
+	groups = check_request(tools.get_groups(__token__,__orgID__))['groups']
 	for group in ds['groups']:
 		for in_groups in groups:
 			if in_groups['id'] == group:
@@ -463,7 +420,7 @@ def update_user(args):
 
 	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
 
-	check_request(ya360.update_user(__token__, __orgID__, body, ID))
+	check_request(users.update_user(__token__, __orgID__, body, ID))
 	print('Обновлено')
 
 def create_user(args):
@@ -503,7 +460,7 @@ def create_user(args):
 		if args.isAdmin == 'true':body.update({'isAdmin': True})
 		else: body.update({'isAdmin': False})
 
-	cd = check_request(ya360.create_user(__token__, __orgID__, body))
+	cd = check_request(users.create_user(__token__, __orgID__, body))
 	print(f'Пользователь создан с ID: {cd["id"]}')
 
 def delete_user(args):
@@ -517,7 +474,7 @@ def delete_user(args):
 
 	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
 
-	check_request(ya360.delete_user(__token__, __orgID__, ID))
+	check_request(users.delete_user(__token__, __orgID__, ID))
 	print('Пользователь удален')
 
 def add_alias_user(args):
@@ -533,7 +490,7 @@ def add_alias_user(args):
 
 	body = {'alias': args.alias}
 
-	check_request(ya360.add_alias_user(__token__, __orgID__, ID, body))
+	check_request(users.add_alias_user(__token__, __orgID__, ID, body))
 	print('Алиас добавлен')
 
 def delete_alias_user(args):
@@ -547,5 +504,5 @@ def delete_alias_user(args):
 
 	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
 
-	check_request(ya360.delete_alias_user(__token__, __orgID__, ID, args.alias))
+	check_request(users.delete_alias_user(__token__, __orgID__, ID, args.alias))
 	print('Алиас удален')

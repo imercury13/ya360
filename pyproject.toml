@@ -19,7 +19,7 @@ classifiers = [
 ]
 dependencies = [
     "yandex-oauth >= 1.1.2",
-    "yandex-360 >= 2.1.0",
+    "yandex-360 >= 2.1.1",
 ]
 authors = [
     {name = "Купцов Игорь", email = "ya360@uh.net.ru"},
