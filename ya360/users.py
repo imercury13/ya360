@@ -4,7 +4,7 @@ from .tid import load_token, load_orgID
 from yandex_360 import users, tools
 from .whois import search_in_users, search_in_groups, search_in_departments
 from .tools import check_request
-import csv
+import csv, sys
 
 def show_users(args):
 	"""Функция вывода списка всех пользователей
@@ -214,3 +214,29 @@ def delete_alias_user(args):
 
 	check_request(users.delete_alias_user(__token__, __orgID__, ID, args.alias))
 	print('Алиас удален')
+
+def upload_avatar_user(args):
+    """Функция загрузки портрета пользователя из файла
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgID__ = load_orgID()
+
+    ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
+
+    try:
+        with open(args.filename, mode='rb') as file:
+            pic = file.read()
+    except FileNotFoundError:
+        print('Файл не найден!')
+        sys.exit(1)
+
+    if sys.getsizeof(pic) >= 1000000:
+        print('Размер файла большой! Должен быть меньше 1 МБ')
+        sys.exit(1)
+
+    res = check_request(users.upload_user_avatar(__token__, __orgID__, ID, pic))
+    print(f'Портрет загружен ({res["url"]})')

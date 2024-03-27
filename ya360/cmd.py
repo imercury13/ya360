@@ -6,7 +6,7 @@ from . import __version__
 from . import __path__ as path
 import argparse
 from .departments import create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments
-from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
+from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user, upload_avatar_user
 from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
 from .whois import whois
 from .configure import make_config
@@ -82,6 +82,10 @@ def gen_parser():
     parser_user_comm.add_argument('--page', type=int, help='Номер страницы')
     parser_user_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
     parser_user_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
+
+    parser_user_comm = subparser_user.add_parser('avatar', help='Загрузить портрет пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
+    parser_user_comm.add_argument('filename', type=str, help='Имя файла')
     
     parser_group = subparsers.add_parser('group', help='Действия над группой')
     subparser_group = parser_group.add_subparsers(help='Действия над группой', dest='sub_com_group')
@@ -248,6 +252,8 @@ def start():
             add_alias_user(args)
         if args.sub_com_user == 'delete-alias':
             delete_alias_user(args)
+        if args.sub_com_user == 'avatar':
+            upload_avatar_user(args)
 
     if args.sub_com == 'antispam':
         if args.sub_com_antispam == 'show':
