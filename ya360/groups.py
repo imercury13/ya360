@@ -1,6 +1,10 @@
+"""Модуль функций работы с API Yandex 360 группы"""
+
 from .tid import load_token, load_orgID
-from yandex_360 import users, departments, groups, tools
+from yandex_360 import groups, tools
+from .whois import search_in_users, search_in_groups, search_in_departments
 from .tools import check_request
+import csv
 
 
 def create_group(args):

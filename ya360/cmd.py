@@ -5,7 +5,9 @@
 from . import __version__
 from . import __path__ as path
 import argparse
-from .ya import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
+from .departments import create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments
+from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
+from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
 from .whois import whois
 from .configure import make_config
 from .antispam import show_whitelist, add_in_whitelist, remove_from_whitelist, delete_whitelist
