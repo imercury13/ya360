@@ -1,7 +1,7 @@
 """Модуль функций работы с API Yandex 360 пользователи"""
 
 from .tid import load_token, load_orgID
-from yandex_360 import users, tools
+from yandex_360 import users, departments, tools
 from .whois import search_in_users, search_in_groups, search_in_departments
 from .tools import check_request
 import csv, sys
@@ -45,7 +45,7 @@ def show_user(args):
 	__orgID__ = load_orgID()
 
 	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
-	
+	a2fa = check_request(users.show_user_2fa(__token__, __orgID__, ID))['has2fa']
 	ds = check_request(users.show_user(__token__, __orgID__, ID))
 
 	print(f'{"ID":>20s} {ds["id"]:<17s}')
@@ -54,6 +54,7 @@ def show_user(args):
 	print(f'{"displayName:":>20s} {ds["displayName"]:<17s}')
 	print(f'{"Должность:":>20s} {ds["position"]:<17s}')
 	print(f'{"Подразделение:":>20s} {check_request(departments.show_department(__token__, __orgID__, str(ds["departmentId"])))["name"]:<17s}')
+	print(f'{"2FA":>20s} {a2fa}')
 	print(f'{"E-mail:":>20s} {ds["email"]:<17s}')
 	al = ", ".join(str(x) for x in ds['aliases'])
 	print(f'{"Альясы:":>20s} {al:<17s}')
@@ -216,27 +217,27 @@ def delete_alias_user(args):
 	print('Алиас удален')
 
 def upload_avatar_user(args):
-    """Функция загрузки портрета пользователя из файла
-	
+	"""Функция загрузки портрета пользователя из файла
+
 	:param args: словарь аргументов командной строки
 	:type args: dict
 	"""
 
-    __token__ = load_token()
-    __orgID__ = load_orgID()
+	__token__ = load_token()
+	__orgID__ = load_orgID()
 
-    ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
+	ID = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgID__))['id']
 
-    try:
-        with open(args.filename, mode='rb') as file:
-            pic = file.read()
-    except FileNotFoundError:
-        print('Файл не найден!')
-        sys.exit(1)
+	try:
+		with open(args.filename, mode='rb') as file:
+			pic = file.read()
+	except FileNotFoundError:
+		print('Файл не найден!')
+		sys.exit(1)
 
-    if sys.getsizeof(pic) >= 1000000:
-        print('Размер файла большой! Должен быть меньше 1 МБ')
-        sys.exit(1)
+	if sys.getsizeof(pic) >= 1000000:
+		print('Размер файла большой! Должен быть меньше 1 МБ')
+		sys.exit(1)
 
-    res = check_request(users.upload_user_avatar(__token__, __orgID__, ID, pic))
-    print(f'Портрет загружен ({res["url"]})')
+	res = check_request(users.upload_user_avatar(__token__, __orgID__, ID, pic))
+	print(f'Портрет загружен ({res["url"]})')
