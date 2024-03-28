@@ -1,5 +1,6 @@
 """Модуль функций работы с конфигурационным файлом"""
 
+import sys
 from yandex_oauth import yao
 from . import __path__ as path
 from . import __version__
@@ -35,17 +36,17 @@ def make_config():
         client_id = input('   Введите ClientID: ')
     except:
         print('\n')
-        exit(0)
+        sys.exit(0)
     try:
         client_secret = input('   Введите Client secret: ')
     except:
         print('\n')
-        exit(0)
+        sys.exit(0)
     try:
         adminemail = input('   Введите e-mail администратора организации, от имени которого будут выполняться запросы к API: ')
     except:
         print('\n')
-        exit(0)
+        sys.exit(0)
     url = 'https://oauth.yandex.ru/authorize?response_type=code&client_id='+str(client_id)+'&login_hint='+str(adminemail)+'&force_confirm=yes'
     print('\n4. Перейдите по следующей ссылке и получите код подтверждения\n')
     print('      '+url)
@@ -54,21 +55,21 @@ def make_config():
         code = input('   Введите код подтверждения: ')
     except:
         print('\n')
-        exit(0)
+        sys.exit(0)
     token = yao.get_token_by_code(code, client_id, client_secret)
     if 'error' in token and 'error_description' in token:
         print('\nОШИБКА '+token['error']+': '+token['error_description']+'\n')
-        exit(1)
+        sys.exit(1)
     print('5. Зайдите в профиль организации\n')
     print('      https://admin.yandex.ru/company-profile\n')
     try:
         orgid = input('    Введите ID организации: ')
     except:
         print('\n')
-        exit(0)
+        sys.exit(0)
     token.update({'orgid':orgid,'adminemail':adminemail})
     if yao.save_token(path[0], token):
         return True
     else:
         print('\nОшибка создания конфигурационного файла\n')
-        exit(1)
+        sys.exit(1)

@@ -2,7 +2,7 @@
 
 import json
 from yandex_360 import routing
-from .tid import load_token, load_orgID
+from .tid import load_token, load_orgid
 from .tools import check_request
 
 
@@ -10,9 +10,9 @@ def load_routing():
     '''Функция загрузки содержимого таблицы правил'''
 
     __token__ = load_token()
-    __orgID__ = load_orgID()
+    __orgid__ = load_orgid()
 
-    return check_request(routing.show_routing(__token__, __orgID__)['rules'])
+    return check_request(routing.show_routing(__token__, __orgid__)['rules'])
 
 def show_routing():
     '''Функция вывода содержимого таблицы правил'''
@@ -26,18 +26,18 @@ def show_routing():
 def add_in_routing(args):
     '''Функция добавление правила в таблицу'''
     rt = load_routing()
-    
+
     if args.position:
         rt.insert(args.position, json.loads(args.rule))
     else:
         rt.append(json.loads(args.rule))
-    
+
     body = {'rules':rt}
 
     __token__ = load_token()
-    __orgID__ = load_orgID()
+    __orgid__ = load_orgid()
 
-    check_request(routing.edit_routing(__token__, __orgID__, body))
+    check_request(routing.edit_routing(__token__, __orgid__, body))
 
     print('Добавлено')
 
@@ -51,12 +51,12 @@ def remove_from_routing(args):
     except:
         print('Неверный номер правила')
         exit(1)
-    
+
     body = {'rules':rt}
 
     __token__ = load_token()
-    __orgID__ = load_orgID()
+    __orgid__ = load_orgid()
 
-    check_request(routing.edit_routing(__token__, __orgID__, body))
+    check_request(routing.edit_routing(__token__, __orgid__, body))
 
     print('Удалено')

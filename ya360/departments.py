@@ -2,7 +2,7 @@
 
 import csv
 from yandex_360 import departments, tools
-from .tid import load_token, load_orgID
+from .tid import load_token, load_orgid
 from .tools import check_request
 
 
@@ -14,7 +14,7 @@ def create_department(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	body = {}
 	body.update({'label':args.label, 'parentId':1})
 
@@ -48,7 +48,7 @@ def update_department(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	body = {}
 
 	if args.parentlabel:
@@ -85,7 +85,7 @@ def delete_department(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	did = check_request(tools.get_id_department_by_label(args.label, __token__, __orgid__))['id']
 	check_request(departments.delete_department(__token__, __orgid__, str(did)))
 
@@ -100,7 +100,7 @@ def add_alias_department(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	body = {'alias':args.alias}
 	did = check_request(tools.get_id_department_by_label(args.label, __token__, __orgid__))['id']
 	check_request(departments.add_alias_department(__token__, __orgid__, body, str(did)))
@@ -113,7 +113,7 @@ def delete_alias_department(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	did = check_request(tools.get_id_department_by_label(args.label, __token__, __orgid__))['id']
 	check_request(departments.delete_alias_department(__token__, __orgid__, str(did), args.alias))
 	print('Алиас удален')
@@ -125,7 +125,7 @@ def show_department(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	did = check_request(tools.get_id_department_by_label(args.label, __token__, __orgid__))['id']
 	ds = check_request(departments.show_department(__token__, __orgid__, str(did)))
 	depts = check_request(tools.get_departments(__token__, __orgid__))['departments']
@@ -153,7 +153,7 @@ def show_departments(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	deps = check_request(tools.get_departments(__token__, __orgid__))
 

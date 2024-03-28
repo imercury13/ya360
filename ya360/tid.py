@@ -17,12 +17,12 @@ def load_token():
 	return token
 
 
-def load_orgID():
+def load_orgid():
 	"""Функция загрузки id организации
 	
 	:returns: ID организации
 	"""
 
-	orgID = yao.load_token(path[0])['orgid']
+	orgid = yao.load_token(path[0])['orgid']
 
-	return orgID
+	return orgid

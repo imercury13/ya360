@@ -3,7 +3,7 @@
 import csv
 import sys
 from yandex_360 import users, departments, tools
-from .tid import load_token, load_orgID
+from .tid import load_token, load_orgid
 from .tools import check_request
 
 
@@ -15,7 +15,7 @@ def show_users(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	us = check_request(tools.get_users(__token__, __orgid__))
 
@@ -44,7 +44,7 @@ def show_user(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
 	a2fa = check_request(users.show_user_2fa(__token__, __orgid__, uid))['has2fa']
@@ -96,7 +96,7 @@ def update_user(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	body = {}
 
 	if args.name:
@@ -172,7 +172,7 @@ def create_user(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	body = {}
 
 	if args.name:
@@ -237,7 +237,7 @@ def delete_user(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
 
@@ -252,7 +252,7 @@ def add_alias_user(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
 
@@ -269,7 +269,7 @@ def delete_alias_user(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
 
@@ -285,7 +285,7 @@ def upload_avatar_user(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
 

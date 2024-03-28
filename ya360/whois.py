@@ -1,7 +1,7 @@
 """Модуль функций для whois"""
 
 from yandex_360 import users, departments, groups
-from .tid import load_token, load_orgID
+from .tid import load_token, load_orgid
 from .tools import check_request
 
 
@@ -14,7 +14,7 @@ def search_in_groups(sstr):
 	:rtype: str
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	ret = {}
 
 	grps = check_request(groups.show_groups(__token__, __orgid__))
@@ -38,7 +38,7 @@ def search_in_departments(sstr):
 	:returns: результат поиска
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	ret = {}
 
 	dep = check_request(departments.show_departments(__token__, __orgid__))
@@ -62,7 +62,7 @@ def search_in_users(sstr):
 	:returns: результат поиска
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 	ret = {}
 	usrs = check_request(users.show_users(__token__, __orgid__))
 	while usrs['page'] <= usrs['pages']:

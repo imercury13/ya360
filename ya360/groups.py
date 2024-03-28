@@ -2,7 +2,7 @@
 
 import csv
 from yandex_360 import groups, tools
-from .tid import load_token, load_orgID
+from .tid import load_token, load_orgid
 from .whois import search_in_users, search_in_groups, search_in_departments
 from .tools import check_request
 
@@ -15,7 +15,7 @@ def create_group(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	body = {}
 	body.update({'name':args.name})
@@ -41,7 +41,7 @@ def update_group(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	body = {}
 
@@ -71,7 +71,7 @@ def delete_group(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	gid = check_request(tools.get_id_group_by_label(args.label, __token__, __orgid__))['id']
 	check_request(groups.delete_group(__token__, __orgid__, str(gid)))
@@ -86,7 +86,7 @@ def add_member_group(args):
 	"""
 
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	body = {}
 	gid = check_request(tools.get_id_group_by_label(args.label, __token__, __orgid__))['id']
@@ -110,7 +110,7 @@ def delete_member_group(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	a_type, a_userid = str()
 	gid = check_request(tools.get_id_group_by_label(args.label, __token__, __orgid__))['id']
@@ -137,7 +137,7 @@ def show_group(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	gid = check_request(tools.get_id_group_by_label(args.label, __token__, __orgid__))['id']
 	grps = check_request(groups.show_group(__token__, __orgid__, str(gid)))
@@ -173,7 +173,7 @@ def show_groups(args):
 	:type args: dict
 	"""
 	__token__ = load_token()
-	__orgid__ = load_orgID()
+	__orgid__ = load_orgid()
 
 	gs = check_request(tools.get_groups(__token__, __orgid__))
 
