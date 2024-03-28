@@ -2,9 +2,11 @@
 Модуль командной строки
 """
 
+import argparse
+import datetime
+from yandex_oauth import yao
 from . import __version__
 from . import __path__ as path
-import argparse
 from .departments import create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments
 from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user, upload_avatar_user
 from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
@@ -12,8 +14,7 @@ from .whois import whois
 from .configure import make_config
 from .antispam import show_whitelist, add_in_whitelist, remove_from_whitelist, delete_whitelist
 from .routing import add_in_routing, show_routing, remove_from_routing
-from yandex_oauth import yao
-import datetime
+
 
 def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
@@ -86,7 +87,7 @@ def gen_parser():
     parser_user_comm = subparser_user.add_parser('avatar', help='Загрузить портрет пользователя')
     parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
     parser_user_comm.add_argument('filename', type=str, help='Имя файла')
-    
+
     parser_group = subparsers.add_parser('group', help='Действия над группой')
     subparser_group = parser_group.add_subparsers(help='Действия над группой', dest='sub_com_group')
 
@@ -106,7 +107,7 @@ def gen_parser():
     parser_group_comm = subparser_group.add_parser('add-member', help='Добавить участника в группу')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
     parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения)')
-    
+
 
     parser_group_comm = subparser_group.add_parser('delete-member', help='Удалить участника из группы')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
@@ -180,7 +181,7 @@ def gen_parser():
 
 
     parser_config = subparsers.add_parser('make-config', help='Создание конфигурационного файла')
-    
+
     return parser
 
 def start():
@@ -264,7 +265,7 @@ def start():
             remove_from_whitelist(args)
         if args.sub_com_antispam == 'delete':
             delete_whitelist()
-    
+
     if args.sub_com == 'routing':
         if args.sub_com_routing == 'show':
             show_routing()

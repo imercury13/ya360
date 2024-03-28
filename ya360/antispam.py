@@ -1,8 +1,9 @@
 """Модуль функций для antispam"""
 
+from yandex_360 import antispam
 from .tid import load_token, load_orgID
 from .tools import check_request
-from yandex_360 import antispam
+
 
 def load_whitelist():
     '''Функция вывода содержимого белого списка'''

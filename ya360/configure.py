@@ -1,15 +1,16 @@
 """Модуль функций работы с конфигурационным файлом"""
 
+from yandex_oauth import yao
 from . import __path__ as path
 from . import __version__
-from yandex_oauth import yao
+
 
 def load_config():
     """Функция загрузки конфигурационного файла
     
     :returns: config или False, если нет кофигурационного файла
     """
-    
+
     return yao.load_token(path[0])
 
 

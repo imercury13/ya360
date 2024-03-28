@@ -1,9 +1,9 @@
 """Модуль функций для routing"""
 
+import json
+from yandex_360 import routing
 from .tid import load_token, load_orgID
 from .tools import check_request
-from yandex_360 import routing
-import json
 
 
 def load_routing():

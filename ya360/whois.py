@@ -1,7 +1,8 @@
 """Модуль функций для whois"""
+
+from yandex_360 import users, departments, groups
 from .tid import load_token, load_orgID
 from .tools import check_request
-from yandex_360 import users, departments, groups, tools
 
 
 def search_in_groups(sstr):
@@ -13,10 +14,10 @@ def search_in_groups(sstr):
 	:rtype: str
 	"""
 	__token__ = load_token()
-	__orgID__ = load_orgID()
+	__orgid__ = load_orgID()
 	ret = {}
-	url = 'perPage=10000'
-	grps = check_request(groups.show_groups(__token__, __orgID__))
+
+	grps = check_request(groups.show_groups(__token__, __orgid__))
 	while grps['page'] <= grps['pages']:
 		for g in grps['groups']:
 			if g['label'] == sstr:
@@ -25,7 +26,7 @@ def search_in_groups(sstr):
 				for a in g['aliases']:
 					if a == sstr:
 						ret.update(g)
-		grps = groups.show_groups(__token__, __orgID__, page=grps['page']+1)
+		grps = groups.show_groups(__token__, __orgid__, page=grps['page']+1)
 
 	return ret
 
@@ -37,10 +38,10 @@ def search_in_departments(sstr):
 	:returns: результат поиска
 	"""
 	__token__ = load_token()
-	__orgID__ = load_orgID()
+	__orgid__ = load_orgID()
 	ret = {}
-	url = 'perPage=1000'
-	dep = check_request(departments.show_departments(__token__, __orgID__))
+
+	dep = check_request(departments.show_departments(__token__, __orgid__))
 	while dep['page'] <= dep['pages']:
 		for d in dep['departments']:
 			if d['label'] == sstr:
@@ -49,7 +50,7 @@ def search_in_departments(sstr):
 				for a in d['aliases']:
 					if a == sstr:
 						ret.update(d)
-		dep = departments.show_departments(__token__, __orgID__, page=dep['page']+1)
+		dep = departments.show_departments(__token__, __orgid__, page=dep['page']+1)
 
 	return ret
 
@@ -61,9 +62,9 @@ def search_in_users(sstr):
 	:returns: результат поиска
 	"""
 	__token__ = load_token()
-	__orgID__ = load_orgID()
+	__orgid__ = load_orgID()
 	ret = {}
-	usrs = check_request(users.show_users(__token__, __orgID__))
+	usrs = check_request(users.show_users(__token__, __orgid__))
 	while usrs['page'] <= usrs['pages']:
 		for u in usrs['users']:
 			if u['nickname'] == sstr:
@@ -72,7 +73,7 @@ def search_in_users(sstr):
 				for a in u['aliases']:
 					if a == sstr:
 						ret.update(u)
-		usrs = users.show_users(__token__, __orgID__, page=usrs['page']+1)
+		usrs = users.show_users(__token__, __orgid__, page=usrs['page']+1)
 
 	return ret
 
