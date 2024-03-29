@@ -10,6 +10,7 @@ from . import __path__ as path
 from .departments import create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments
 from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user, upload_avatar_user
 from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
+from .mail import edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox, show_access_mailbox_user, show_users_access_mailbox
 from .whois import whois
 from .configure import make_config
 from .antispam import show_whitelist, add_in_whitelist, remove_from_whitelist, delete_whitelist
@@ -161,6 +162,32 @@ def gen_parser():
     parser_department_comm.add_argument('--orderBy', choices=['id','name'], help='Сортировать по')
     parser_department_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
+
+    parser_mailbox = subparsers.add_parser('mailbox', help='Делегирование почтовых ящиков')
+    subparser_mailbox = parser_mailbox.add_subparsers(dest='sub_com_mailbox')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('delegated',help='Делегирование доступа к почтовому ящику')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_mailbox_comm.add_argument('to_nickname', type=str, help='Login пользователя кому делегируем')
+    parser_mailbox_comm.add_argument('--imap_full_access', action='store_true', help='право на чтение почты и управление настройками ящика')
+    parser_mailbox_comm.add_argument('--send_on_behalf', action='store_true', help='право на отправление писем от своего имени')
+    parser_mailbox_comm.add_argument('--send_as', action='store_true', help='право на отправление писем от имени владельца ящика')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('delete',help='Удалить доступ к почтовому ящику')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_mailbox_comm.add_argument('to_nickname', type=str, help='Login пользователя у кого удаляются права')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('status',help='Статус выполнения задачи')
+    parser_mailbox_comm.add_argument('taskid', type=str, help='Номер задания')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('list-mailboxes',help='Список почтовых ящиков, к которым у сотрудника есть права доступа')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('list-users',help='Список сотрудников, у которых есть права доступа к почтовому ящику')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+
+
+
     parser_antispam = subparsers.add_parser('antispam', help='Антиспам')
     subparser_antispam = parser_antispam.add_subparsers(dest='sub_com_antispam')
     parser_antispam_comm = subparser_antispam.add_parser('show', help='Показать содержимое белого списка')
@@ -255,6 +282,18 @@ def start():
             delete_alias_user(args)
         if args.sub_com_user == 'avatar':
             upload_avatar_user(args)
+
+    if args.sub_com == 'mailbox':
+        if args.sub_com_mailbox == 'delegated':
+            edit_access_mailbox(args)
+        if args.sub_com_mailbox == 'delete':
+            delete_access_mailbox(args)
+        if args.sub_com_mailbox == 'status':
+            show_status_access_mailbox(args)
+        if args.sub_com_mailbox == 'list-mailboxes':
+            show_access_mailbox_user(args)
+        if args.sub_com_mailbox == 'list-users':
+            show_users_access_mailbox(args)
 
     if args.sub_com == 'antispam':
         if args.sub_com_antispam == 'show':
