@@ -12,6 +12,7 @@ from .users import show_users, show_user, update_user, create_user, add_alias_us
 from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
 from .mail import edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox, show_access_mailbox_user, show_users_access_mailbox
 from .whois import whois
+from .logs import show_mail_log
 from .configure import make_config
 from .antispam import show_whitelist, add_in_whitelist, remove_from_whitelist, delete_whitelist
 from .routing import add_in_routing, show_routing, remove_from_routing
@@ -188,6 +189,18 @@ def gen_parser():
 
 
 
+    parser_logs = subparsers.add_parser('logs', help='Аудит-лог событий в организации')
+    subparser_logs = parser_logs.add_subparsers(dest='sub_com_logs')
+
+    parser_logs_comm = subparser_logs.add_parser('mail',help='Аудит-лог почты')
+    parser_logs_comm.add_argument('--beforeDate', type=str, help='Верхняя граница периода выборки в формате ISO 8601')
+    parser_logs_comm.add_argument('--afterDate', type=str, help='Нижняя граница периода выборки в формате ISO 8601')
+    parser_logs_comm.add_argument('--includeUsers', type=str, help='Список пользователей, действия которых должны быть включены в список событий')
+    parser_logs_comm.add_argument('--excludeUsers', type=str, help='Список пользователей, действия которых должны быть исключены из списка событий')
+    parser_logs_comm.add_argument('--types', type=str, help='Типы событий которые должны быть включены в список. По умолчанию включаются все события')
+
+    parser_logs_comm = subparser_logs.add_parser('disk',help='Аудит-лог диска')
+
     parser_antispam = subparsers.add_parser('antispam', help='Антиспам')
     subparser_antispam = parser_antispam.add_subparsers(dest='sub_com_antispam')
     parser_antispam_comm = subparser_antispam.add_parser('show', help='Показать содержимое белого списка')
@@ -294,6 +307,10 @@ def start():
             show_access_mailbox_user(args)
         if args.sub_com_mailbox == 'list-users':
             show_users_access_mailbox(args)
+
+    if args.sub_com == 'logs':
+        if args.sub_com_logs == 'mail':
+            show_mail_log(args)
 
     if args.sub_com == 'antispam':
         if args.sub_com_antispam == 'show':
