@@ -31,4 +31,4 @@ def nickname_to_uid(__token__,__orgid__,users_list):
 		except:
 			print(f'Пользователь {user} не найден')
 			sys.exit(1)
-	return ','.join(uid_list)
+	return uid_list
