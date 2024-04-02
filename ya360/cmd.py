@@ -198,6 +198,7 @@ def gen_parser():
     parser_logs_comm.add_argument('--includeUsers', type=str, help='Список пользователей, действия которых должны быть включены в список событий')
     parser_logs_comm.add_argument('--excludeUsers', type=str, help='Список пользователей, действия которых должны быть исключены из списка событий')
     parser_logs_comm.add_argument('--types', type=str, help='Типы событий которые должны быть включены в список. По умолчанию включаются все события')
+    parser_logs_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
     parser_logs_comm = subparser_logs.add_parser('disk',help='Аудит-лог диска')
 

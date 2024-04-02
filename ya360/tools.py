@@ -32,3 +32,20 @@ def nickname_to_uid(__token__,__orgid__,users_list):
 			print(f'Пользователь {user} не найден')
 			sys.exit(1)
 	return uid_list
+
+def check_types(types_list):
+	"""Функция проверки типов событий с почтой"""
+
+	types_const = [
+		'mailbox_send','message_receive','message_seen',
+		'message_unseen','message_forward','message_purge',
+		'message_trash','message_spam','message_unspam',
+		'message_move','message_copy','message_answer'
+	]
+
+	for tp in types_list:
+		if tp not in types_const:
+			print(f'Неизвестный тип события: {tp}')
+			sys.exit(1)
+	
+	return None
