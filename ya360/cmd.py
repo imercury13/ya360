@@ -10,7 +10,7 @@ from . import __path__ as path
 from .departments import create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments
 from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user, upload_avatar_user
 from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
-from .mail import edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox, show_access_mailbox_user, show_users_access_mailbox
+from .mail import edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox, show_access_mailbox_user, show_users_access_mailbox,show_main_address
 from .whois import whois
 from .logs import show_mail_log, show_disk_log
 from .configure import make_config
@@ -187,6 +187,12 @@ def gen_parser():
     parser_mailbox_comm = subparser_mailbox.add_parser('list-users',help='Список сотрудников, у которых есть права доступа к почтовому ящику')
     parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
 
+    parser_sender_mailbox =  subparser_mailbox.add_parser('sender', help='Управление отправителем')
+    subparser_sender_mailbox = parser_sender_mailbox.add_subparsers(dest='sub_com_sender_mailbox')
+
+    parser_sender_mailbox_comm =  subparser_sender_mailbox.add_parser('show-main-address', help='Отобразить основной адрес')
+    parser_sender_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+
 
 
     parser_logs = subparsers.add_parser('logs', help='Аудит-лог событий в организации')
@@ -314,6 +320,9 @@ def start():
             show_access_mailbox_user(args)
         if args.sub_com_mailbox == 'list-users':
             show_users_access_mailbox(args)
+        if args.sub_com_mailbox == 'sender':
+            if args.sub_com_sender_mailbox == 'show-main-address':
+                show_main_address(args)
 
     if args.sub_com == 'logs':
         if args.sub_com_logs == 'mail':

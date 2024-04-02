@@ -112,3 +112,21 @@ def show_users_access_mailbox(args):
         print(f'{users.show_user(__token__,__orgid__,mailbox["actorId"])["displayName"]}: {mailbox["rights"]}')
 
     return None
+
+def show_main_address(args):
+    """Возвращает почтовый адрес, с которого отправляются письма по умолчанию
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    res = check_request(mail.show_sender_info(__token__, __orgid__, uid))
+
+    print(f'{res["fromName"]} {res["defaultFrom"]}')
+
+    return None
