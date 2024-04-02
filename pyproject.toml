@@ -18,11 +18,11 @@ classifiers = [
     "Intended Audience :: System Administrators"
 ]
 dependencies = [
-    "yandex-oauth >= 2.0.0",
-    "yandex-360 >= 1.3.1",
+    "yandex-oauth >= 1.1.2",
+    "yandex-360 >= 2.2.1",
 ]
 authors = [
-    {name = "Igor Kuptsov", email = "ya360@uh.net.ru"},
+    {name = "Купцов Игорь", email = "ya360@uh.net.ru"},
 ]
 dynamic = ["version"]
 

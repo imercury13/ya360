@@ -20,8 +20,8 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 
 project = 'ya360'
-copyright = '2024, Igor Kuptsov'
-author = 'Igor Kuptsov'
+copyright = '2024, Купцов Игорь Валерьевич'
+author = 'Купцов Игорь Валерьевич'
 
 # The full version, including alpha/beta/rc tags
 #release = ''
@@ -74,3 +74,4 @@ exclude_patterns = []
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 html_theme = 'sphinx_rtd_theme'
+numfig = True

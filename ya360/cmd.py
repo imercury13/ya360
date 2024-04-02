@@ -2,16 +2,21 @@
 Модуль командной строки
 """
 
+import argparse
+import datetime
+from yandex_oauth import yao
 from . import __version__
 from . import __path__ as path
-import argparse
-from .ya import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups, create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments, show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user
+from .departments import create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments
+from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user, upload_avatar_user
+from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
+from .mail import edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox, show_access_mailbox_user, show_users_access_mailbox
 from .whois import whois
+from .logs import show_mail_log, show_disk_log
 from .configure import make_config
 from .antispam import show_whitelist, add_in_whitelist, remove_from_whitelist, delete_whitelist
 from .routing import add_in_routing, show_routing, remove_from_routing
-from yandex_oauth import yao
-import datetime
+
 
 def gen_parser():
     """Функция запуска приложения приема аргументов командной строки
@@ -80,7 +85,11 @@ def gen_parser():
     parser_user_comm.add_argument('--page', type=int, help='Номер страницы')
     parser_user_comm.add_argument('--perPage', type=int, help='Количество записей на странице')
     parser_user_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
-    
+
+    parser_user_comm = subparser_user.add_parser('avatar', help='Загрузить портрет пользователя')
+    parser_user_comm.add_argument('nickname', type=str, help='Login пользователя')
+    parser_user_comm.add_argument('filename', type=str, help='Имя файла')
+
     parser_group = subparsers.add_parser('group', help='Действия над группой')
     subparser_group = parser_group.add_subparsers(help='Действия над группой', dest='sub_com_group')
 
@@ -100,7 +109,7 @@ def gen_parser():
     parser_group_comm = subparser_group.add_parser('add-member', help='Добавить участника в группу')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
     parser_group_comm.add_argument('member', type=str, help='Участник (login для пользователя или имя для группы или подразделения)')
-    
+
 
     parser_group_comm = subparser_group.add_parser('delete-member', help='Удалить участника из группы')
     parser_group_comm.add_argument('label', type=str, help='Имя группы')
@@ -154,6 +163,51 @@ def gen_parser():
     parser_department_comm.add_argument('--orderBy', choices=['id','name'], help='Сортировать по')
     parser_department_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
+
+    parser_mailbox = subparsers.add_parser('mailbox', help='Делегирование почтовых ящиков')
+    subparser_mailbox = parser_mailbox.add_subparsers(dest='sub_com_mailbox')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('delegated',help='Делегирование доступа к почтовому ящику')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_mailbox_comm.add_argument('to_nickname', type=str, help='Login пользователя кому делегируем')
+    parser_mailbox_comm.add_argument('--imap_full_access', action='store_true', help='право на чтение почты и управление настройками ящика')
+    parser_mailbox_comm.add_argument('--send_on_behalf', action='store_true', help='право на отправление писем от своего имени')
+    parser_mailbox_comm.add_argument('--send_as', action='store_true', help='право на отправление писем от имени владельца ящика')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('delete',help='Удалить доступ к почтовому ящику')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_mailbox_comm.add_argument('to_nickname', type=str, help='Login пользователя у кого удаляются права')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('status',help='Статус выполнения задачи')
+    parser_mailbox_comm.add_argument('taskid', type=str, help='Номер задания')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('list-mailboxes',help='Список почтовых ящиков, к которым у сотрудника есть права доступа')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя')
+
+    parser_mailbox_comm = subparser_mailbox.add_parser('list-users',help='Список сотрудников, у которых есть права доступа к почтовому ящику')
+    parser_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+
+
+
+    parser_logs = subparsers.add_parser('logs', help='Аудит-лог событий в организации')
+    subparser_logs = parser_logs.add_subparsers(dest='sub_com_logs')
+
+    parser_logs_comm = subparser_logs.add_parser('mail',help='Аудит-лог почты')
+    parser_logs_comm.add_argument('--beforeDate', type=str, help='Верхняя граница периода выборки в формате ISO 8601')
+    parser_logs_comm.add_argument('--afterDate', type=str, help='Нижняя граница периода выборки в формате ISO 8601')
+    parser_logs_comm.add_argument('--includeUsers', type=str, help='Список пользователей, действия которых должны быть включены в список событий')
+    parser_logs_comm.add_argument('--excludeUsers', type=str, help='Список пользователей, действия которых должны быть исключены из списка событий')
+    parser_logs_comm.add_argument('--types', type=str, help='Типы событий которые должны быть включены в список. По умолчанию включаются все события')
+    parser_logs_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
+
+    parser_logs_comm = subparser_logs.add_parser('disk',help='Аудит-лог диска')
+    parser_logs_comm.add_argument('--beforeDate', type=str, help='Верхняя граница периода выборки в формате ISO 8601')
+    parser_logs_comm.add_argument('--afterDate', type=str, help='Нижняя граница периода выборки в формате ISO 8601')
+    parser_logs_comm.add_argument('--includeUsers', type=str, help='Список пользователей, действия которых должны быть включены в список событий')
+    parser_logs_comm.add_argument('--excludeUsers', type=str, help='Список пользователей, действия которых должны быть исключены из списка событий')
+    parser_logs_comm.add_argument('--types', type=str, help='Типы событий которые должны быть включены в список. По умолчанию включаются все события')
+    parser_logs_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
+
     parser_antispam = subparsers.add_parser('antispam', help='Антиспам')
     subparser_antispam = parser_antispam.add_subparsers(dest='sub_com_antispam')
     parser_antispam_comm = subparser_antispam.add_parser('show', help='Показать содержимое белого списка')
@@ -174,7 +228,7 @@ def gen_parser():
 
 
     parser_config = subparsers.add_parser('make-config', help='Создание конфигурационного файла')
-    
+
     return parser
 
 def start():
@@ -246,6 +300,26 @@ def start():
             add_alias_user(args)
         if args.sub_com_user == 'delete-alias':
             delete_alias_user(args)
+        if args.sub_com_user == 'avatar':
+            upload_avatar_user(args)
+
+    if args.sub_com == 'mailbox':
+        if args.sub_com_mailbox == 'delegated':
+            edit_access_mailbox(args)
+        if args.sub_com_mailbox == 'delete':
+            delete_access_mailbox(args)
+        if args.sub_com_mailbox == 'status':
+            show_status_access_mailbox(args)
+        if args.sub_com_mailbox == 'list-mailboxes':
+            show_access_mailbox_user(args)
+        if args.sub_com_mailbox == 'list-users':
+            show_users_access_mailbox(args)
+
+    if args.sub_com == 'logs':
+        if args.sub_com_logs == 'mail':
+            show_mail_log(args)
+        if args.sub_com_logs == 'disk':
+            show_disk_log(args)
 
     if args.sub_com == 'antispam':
         if args.sub_com_antispam == 'show':
@@ -256,7 +330,7 @@ def start():
             remove_from_whitelist(args)
         if args.sub_com_antispam == 'delete':
             delete_whitelist()
-    
+
     if args.sub_com == 'routing':
         if args.sub_com_routing == 'show':
             show_routing()

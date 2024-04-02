@@ -1,16 +1,17 @@
 """Модуль функций для antispam"""
 
-from .tid import load_token, load_orgID
-from .tools import check_request
 from yandex_360 import antispam
+from .tid import load_token, load_orgid
+from .tools import check_request
+
 
 def load_whitelist():
     '''Функция вывода содержимого белого списка'''
 
     __token__ = load_token()
-    __orgID__ = load_orgID()
+    __orgid__ = load_orgid()
     
-    return check_request(antispam.show_whitelist(__token__, __orgID__)['allowList'])
+    return check_request(antispam.show_whitelist(__token__, __orgid__)['allowList'])
 
 
 def show_whitelist():
@@ -28,9 +29,9 @@ def add_in_whitelist(args):
     body = {'allowList':wl}
 
     __token__ = load_token()
-    __orgID__ = load_orgID()
+    __orgid__ = load_orgid()
 
-    check_request(antispam.create_whitelist(__token__, __orgID__, body))
+    check_request(antispam.create_whitelist(__token__, __orgid__, body))
 
     print('Добавлено')
 
@@ -39,9 +40,9 @@ def delete_whitelist():
     '''Функция удаления всего белого списка'''
 
     __token__ = load_token()
-    __orgID__ = load_orgID()
+    __orgid__ = load_orgid()
 
-    check_request(antispam.delete_whitelist(__token__, __orgID__))
+    check_request(antispam.delete_whitelist(__token__, __orgid__))
 
 
 def remove_from_whitelist(args):
@@ -58,9 +59,9 @@ def remove_from_whitelist(args):
         body = {'allowList':wl}
 
         __token__ = load_token()
-        __orgID__ = load_orgID()
+        __orgid__ = load_orgid()
 
-        check_request(antispam.create_whitelist(__token__, __orgID__, body))
+        check_request(antispam.create_whitelist(__token__, __orgid__, body))
 
     else:
         delete_whitelist()
