@@ -148,7 +148,6 @@ def show_signs(args):
 
     print(f'{res["fromName"]}\nРасположение подписи: {res["signPosition"]}')
 
-    #pprint(res['signs'])
     i=0
     print('-'*10)
     for sign in res['signs']:
@@ -156,5 +155,27 @@ def show_signs(args):
         print(f'{"":<5} Подпись:\n{sign["text"]}')
         print('-'*10)
         i+=1
+
+    return None
+
+def edit_main_address(args):
+    """Изменяет почтовый адрес, с которого отправляются письма по умолчанию
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    body = check_request(mail.show_sender_info(__token__, __orgid__, uid))
+
+    body['defaultFrom'] = args.defaultFrom
+
+    res = check_request(mail.edit_sender_info(__token__,__orgid__,uid,body))
+
+    print(f'{res["fromName"]} {res["defaultFrom"]}')
 
     return None

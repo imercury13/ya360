@@ -10,7 +10,9 @@ from . import __path__ as path
 from .departments import create_department, update_department, add_alias_department, delete_alias_department, delete_department, show_department, show_departments
 from .users import show_users, show_user, update_user, create_user, add_alias_user, delete_alias_user, delete_user, upload_avatar_user
 from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
-from .mail import edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox, show_access_mailbox_user, show_users_access_mailbox,show_main_address, show_signs
+from .mail import (edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox,
+    show_access_mailbox_user, show_users_access_mailbox,show_main_address,
+    show_signs, edit_main_address)
 from .whois import whois
 from .logs import show_mail_log, show_disk_log
 from .configure import make_config
@@ -164,7 +166,7 @@ def gen_parser():
     parser_department_comm.add_argument('--csv', type=str, help='Выгрузить в CSV файл')
 
 
-    parser_mailbox = subparsers.add_parser('mailbox', help='Делегирование почтовых ящиков')
+    parser_mailbox = subparsers.add_parser('mailbox', help='Операции с почтовыми ящиками')
     subparser_mailbox = parser_mailbox.add_subparsers(dest='sub_com_mailbox')
 
     parser_mailbox_comm = subparser_mailbox.add_parser('delegated',help='Делегирование доступа к почтовому ящику')
@@ -190,11 +192,18 @@ def gen_parser():
     parser_sender_mailbox =  subparser_mailbox.add_parser('sender', help='Управление отправителем')
     subparser_sender_mailbox = parser_sender_mailbox.add_subparsers(dest='sub_com_sender_mailbox')
 
-    parser_sender_mailbox_comm =  subparser_sender_mailbox.add_parser('show-main-address', help='Отобразить основной адрес')
-    parser_sender_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
-    parser_sender_mailbox_comm =  subparser_sender_mailbox.add_parser('show-signs', help='Отобразить подписи')
-    parser_sender_mailbox_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_main_address = subparser_sender_mailbox.add_parser('main-address', help='Управление основным адресом')
+    subparser_main_address = parser_main_address.add_subparsers(dest='sub_com_main_address')
+    parser_main_address_comm =  subparser_main_address.add_parser('show', help='Отобразить основной адрес')
+    parser_main_address_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_main_address_comm =  subparser_main_address.add_parser('edit', help='Изменить основной адрес')
+    parser_main_address_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_main_address_comm.add_argument('defaultFrom', type=str, help='Основлной адрес')
 
+    parser_signs = subparser_sender_mailbox.add_parser('signs', help='Управление подписями')
+    subparser_signs = parser_signs.add_subparsers(dest='sub_com_signs')
+    parser_signs_comm =  subparser_signs.add_parser('show', help='Отобразить подписи')
+    parser_signs_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
 
 
     parser_logs = subparsers.add_parser('logs', help='Аудит-лог событий в организации')
@@ -323,10 +332,14 @@ def start():
         if args.sub_com_mailbox == 'list-users':
             show_users_access_mailbox(args)
         if args.sub_com_mailbox == 'sender':
-            if args.sub_com_sender_mailbox == 'show-main-address':
-                show_main_address(args)
-            if args.sub_com_sender_mailbox == 'show-signs':
-                show_signs(args)
+            if args.sub_com_sender_mailbox == 'main-address':
+                if args.sub_com_main_address == 'show':
+                    show_main_address(args)
+                if args.sub_com_main_address == 'edit':
+                    edit_main_address(args)
+            if args.sub_com_sender_mailbox == 'signs':
+                if args.sub_com_signs == 'show':
+                    show_signs(args)
 
     if args.sub_com == 'logs':
         if args.sub_com_logs == 'mail':
