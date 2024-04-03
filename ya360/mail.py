@@ -179,3 +179,58 @@ def edit_main_address(args):
     print(f'{res["fromName"]} {res["defaultFrom"]}')
 
     return None
+
+def save_sign_to_file(args):
+    """Сохраняет указанную подпись в файл
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    body = check_request(mail.show_sender_info(__token__, __orgid__, uid))
+
+    try:
+        with open(args.filename, mode='w') as file:
+            file.write(body['signs'][int(args.num)]['text'])
+    except IndexError:
+        print(f'Указан неверный номер подписи: {args.num}')
+    except Exception as e:
+        print(e)
+
+    return None
+
+def edit_sign_param(args):
+    """Изменяет параметры указанной подписи
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    body = check_request(mail.show_sender_info(__token__, __orgid__, uid))
+
+    try:
+        if args.emails:
+            body['signs'][args.num]['emails'] = args.emails.split(',')
+
+        if args.isDefault:
+            body['signs'][args.num]['isDefault'] = args.isDefault
+
+        if args.lang:
+            body['signs'][args.num]['lang'] = args.lang
+
+    except IndexError:
+        print(f'Указан неверный номер подписи: {args.num}')
+
+    res = check_request(mail.edit_sender_info(__token__,__orgid__,uid,body))
+
+    return None

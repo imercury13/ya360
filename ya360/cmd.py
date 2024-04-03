@@ -12,7 +12,8 @@ from .users import show_users, show_user, update_user, create_user, add_alias_us
 from .groups import create_group, delete_group, update_group, add_member_group, delete_member_group, show_group, show_groups
 from .mail import (edit_access_mailbox, delete_access_mailbox, show_status_access_mailbox,
     show_access_mailbox_user, show_users_access_mailbox,show_main_address,
-    show_signs, edit_main_address)
+    show_signs, edit_main_address, save_sign_to_file,
+    edit_sign_param)
 from .whois import whois
 from .logs import show_mail_log, show_disk_log
 from .configure import make_config
@@ -204,6 +205,16 @@ def gen_parser():
     subparser_signs = parser_signs.add_subparsers(dest='sub_com_signs')
     parser_signs_comm =  subparser_signs.add_parser('show', help='Отобразить подписи')
     parser_signs_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_signs_comm =  subparser_signs.add_parser('save', help='Сохранить подпись в файл')
+    parser_signs_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_signs_comm.add_argument('num', type=int, help='Номер подписи')
+    parser_signs_comm.add_argument('filename', type=str, help='Имя файла')
+    parser_signs_comm =  subparser_signs.add_parser('edit-param', help='Сохранить подпись в файл')
+    parser_signs_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_signs_comm.add_argument('num', type=int, help='Номер подписи')
+    parser_signs_comm.add_argument('isDefault', type=str, choices=['True','False'], help='Признак основной подписи')
+    parser_signs_comm.add_argument('--emails', type=str, help='Список адресов для ассоциирования')
+    parser_signs_comm.add_argument('--lang', type=str, help='Язык')
 
 
     parser_logs = subparsers.add_parser('logs', help='Аудит-лог событий в организации')
@@ -340,6 +351,10 @@ def start():
             if args.sub_com_sender_mailbox == 'signs':
                 if args.sub_com_signs == 'show':
                     show_signs(args)
+                if args.sub_com_signs == 'save':
+                    save_sign_to_file(args)
+                if args.sub_com_signs == 'edit-param':
+                    edit_sign_param(args)
 
     if args.sub_com == 'logs':
         if args.sub_com_logs == 'mail':
