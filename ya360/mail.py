@@ -325,3 +325,91 @@ def edit_sign_position(args):
     res = check_request(mail.edit_sender_info(__token__,__orgid__,uid,body))
 
     return None
+
+def show_rules_user(args):
+    """Функция просмотра правила автоответа и пересылки писем
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    body = check_request(mail.show_user_rules(__token__, __orgid__, uid))
+
+    print('Автоответы:')
+    print(f'{"ID":<10} {"Название":<25} {"Текст"}')
+    for rule in body['autoreplies']:
+        print(f'{rule["ruleId"]:>10} {rule["ruleName"]:<25} {rule["text"]}')
+    print('Переадресации:')
+    print(f'{"ID":<10} {"Название":<25} {"Адрес":<25} {"Копия"}')
+    for rule in body['forwards']:
+        print(f'{rule["ruleId"]:>10} {rule["ruleName"]:<25} {rule["address"]:<25} {rule["withStore"]}')
+    
+    return None
+
+def add_rule_autoreplies(args):
+    """Функция добавления правила автоответа
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    body = {
+        "autoreply":{
+            "ruleName":args.ruleName,
+            "text":args.text
+        }
+    }
+
+    body = check_request(mail.edit_user_rules(__token__, __orgid__, uid, body))
+
+    return None
+
+def add_rule_forwards(args):
+    """Функция добавления правила пересылки
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    body = {
+        "forward":{
+            "ruleName":args.ruleName,
+            "address":args.address,
+            "withStore":args.copy
+        }
+    }
+
+    res = check_request(mail.edit_user_rules(__token__, __orgid__, uid, body))
+
+    return None
+
+def delete_rule(args):
+    """Функция удаления правила
+	
+	:param args: словарь аргументов командной строки
+	:type args: dict
+	"""
+
+    __token__ = load_token()
+    __orgid__ = load_orgid()
+
+    uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
+
+    check_request(mail.delete_user_rules(__token__, __orgid__, uid, args.ruleId))
+
+    return None

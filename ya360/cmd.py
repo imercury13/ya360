@@ -14,7 +14,8 @@ from .mail import (edit_access_mailbox, delete_access_mailbox, show_status_acces
     show_access_mailbox_user, show_users_access_mailbox,show_main_address,
     show_signs, edit_main_address, save_sign_to_file,
     edit_sign_param, add_sign, delete_sign,
-    edit_sign_position)
+    edit_sign_position, show_rules_user, add_rule_autoreplies,
+    add_rule_forwards, delete_rule)
 from .whois import whois
 from .logs import show_mail_log, show_disk_log
 from .configure import make_config
@@ -231,6 +232,24 @@ def gen_parser():
     parser_signs_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
     parser_signs_comm.add_argument('num', type=int, help='Номер подписи')
 
+    parser_rules = subparser_sender_mailbox.add_parser('rules', help='Управление правилами автоответа и переадресации')
+    subparser_rules = parser_rules.add_subparsers(dest='sub_com_rules')
+    parser_rules_comm =  subparser_rules.add_parser('show', help='Список правил')
+    parser_rules_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_rules_comm =  subparser_rules.add_parser('add-autoreplies', help='Добавить правило автоответа')
+    parser_rules_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_rules_comm.add_argument('ruleName', type=str, help='Наименование правила')
+    parser_rules_comm.add_argument('text', type=str, help='Текст автоответа')
+    parser_rules_comm =  subparser_rules.add_parser('add-forwards', help='Добавить правило пересылки')
+    parser_rules_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_rules_comm.add_argument('ruleName', type=str, help='Наименование правила')
+    parser_rules_comm.add_argument('address', type=str, help='Адрес получателя')
+    parser_rules_comm.add_argument('copy', type=str, choices=['True','False'], help='Сохранять копию письма')
+    parser_rules_comm =  subparser_rules.add_parser('delete', help='Удалить правило')
+    parser_rules_comm.add_argument('nickname', type=str, help='Login пользователя почтового ящика')
+    parser_rules_comm.add_argument('ruleId', type=int, help='Номер правила')
+
+
 
     parser_logs = subparsers.add_parser('logs', help='Аудит-лог событий в организации')
     subparser_logs = parser_logs.add_subparsers(dest='sub_com_logs')
@@ -376,6 +395,16 @@ def start():
                     delete_sign(args)
             if args.sub_com_sender_mailbox == 'sign-position':
                 edit_sign_position(args)
+            if args.sub_com_sender_mailbox == 'rules':
+                if args.sub_com_rules == 'show':
+                    show_rules_user(args)
+                if args.sub_com_rules == 'add-autoreplies':
+                    add_rule_autoreplies(args)
+                if args.sub_com_rules == 'add-forwards':
+                    add_rule_forwards(args)
+                if args.sub_com_rules == 'delete':
+                    delete_rule(args)
+                
 
     if args.sub_com == 'logs':
         if args.sub_com_logs == 'mail':
