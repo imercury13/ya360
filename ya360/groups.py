@@ -99,7 +99,7 @@ def add_member_group(args):
 	ret = search_in_departments(args.member)
 	if 'id' in ret:
 		body.update({'type':'department', 'id':ret['id']})
-	check_request(groups.add_member_group(__token__, __orgid__, body, str(gid)))
+	check_request(groups.add_member_group(__token__, __orgid__, str(gid), body))
 	print('Добавлено')
 
 
