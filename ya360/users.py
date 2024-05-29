@@ -161,7 +161,7 @@ def update_user(args):
 
 	uid = check_request(tools.get_id_user_by_nickname(args.nickname, __token__, __orgid__))['id']
 
-	check_request(users.update_user(__token__, __orgid__, body, uid))
+	check_request(users.update_user(__token__, __orgid__, uid, body))
 	print('Обновлено')
 
 
