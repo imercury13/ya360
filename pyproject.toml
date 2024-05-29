@@ -27,7 +27,7 @@ authors = [
 dynamic = ["version"]
 
 [tool.setuptools_scm]
-version_file = "ya360/_version.py"
+
 
 [tool.setuptools.dynamic]
 version = {attr = "ya360/_version.__version__"}
